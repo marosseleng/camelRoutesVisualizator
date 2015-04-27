@@ -5,7 +5,7 @@ School project for seminar **#PB138(Modern markup languages)** at Masaryk Univer
 ##Table of contents
 - [Summary](#summary)
 - [Usage] (#usage)
-  - [IntelliJ IDEA] (#IDEA)
+  - [IntelliJ IDEA] (#idea)
   - [NetBeans] (#netbeans)
 - [Documentation] (#documentation)
 - [Issues] (#issues)
@@ -20,7 +20,10 @@ This transformation should cover the needs of the [Silverspoon.io project] (http
 
 Original task assignment in Czech language:
 ```
-Cílem práce je vizualizovat Apache Camel routes pomocí SVG. K tomu bude využito XSLT transformace. Obecné prvky zadání dané vizualizace jsou dostupné na tomto odkazu: https://docs.google.com/document/d/1VYe_K9NvOXHtS-R-9H3xywKGm6uvraHk8RWuXHH7qSQ/pub
+Cílem práce je vizualizovat Apache Camel routes pomocí SVG.
+K tomu bude využito XSLT transformace.
+Obecné prvky zadání dané vizualizace jsou dostupné na tomto odkazu:
+https://docs.google.com/document/d/1VYe_K9NvOXHtS-R-9H3xywKGm6uvraHk8RWuXHH7qSQ/pub
 ```
 
 ##Usage
@@ -51,5 +54,9 @@ Read the full documentation on our [wiki pages] (https://github.com/maroselo/vis
 - [Maroš Šeleng] (https://github.com/maroselo) *developer*
 - [Jaroslav Bončo] (https://github.com/jarkojefamozny) *developer*
 - [Jan Grundmann] (https://github.com/jangrundmann) *developer*
-- [Adam Vondráček] () *developer*
+- [Adam Vondráček] (https://github.com/Adam144) *developer*
+- [Filip Nguyen] (https://github.com/nguyenfilip) *developer*
+- [Tomáš Pitner] (https://github.com/tpitner) *developer*
+- [Luděk Bártek] (https://github.com/ludekbartek) *developer*
+- [Adam Rambousek] (https://github.com/rambousek) *developer*
 
