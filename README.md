@@ -59,4 +59,5 @@ Read the full documentation on our [wiki pages] (https://github.com/maroselo/vis
 - [Tomáš Pitner] (https://github.com/tpitner) *developer*
 - [Luděk Bártek] (https://github.com/ludekbartek) *developer*
 - [Adam Rambousek] (https://github.com/rambousek) *developer*
+- wot?
 
