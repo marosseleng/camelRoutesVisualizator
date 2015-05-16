@@ -16,8 +16,8 @@ import java.io.File;
 public class XSLTProcessor {
     public static void main(String[] args) throws TransformerException {
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(new StreamSource(new File(args[0])));
-        transformer.transform(new StreamSource(new File(args[1])), new StreamResult(new File(args[2])));
+        Transformer transformer = factory.newTransformer(new StreamSource(new File("src/main/resources/cubieboard.xsl")));
+        transformer.transform(new StreamSource(new File("src/main/resources/test01.xml")), new StreamResult(new File("src/main/resources/output.svg")));
         //TODO better use try-catch
     }
 }
