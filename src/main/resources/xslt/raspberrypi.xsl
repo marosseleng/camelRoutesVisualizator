@@ -11,10 +11,9 @@
     <xsl:variable name="ethernetRect" select="$piSVG//*[@id='ethernet']"/>
 
     <xsl:template match="/">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -0.104405 1173 531.209"
-             preserveAspectRatio="xMidYMid meet" zoomAndPan="disable">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
 
-            <defs id="svgEditorDefs">
+            <defs>
                 <marker id="end-marker" markerHeight="12" markerUnits="strokeWidth" markerWidth="15" orient="auto"
                         refX="-3" refY="0" viewBox="-15 -5 20 20">
                     <path d="M -15 -5 L 0 0 L -15 5 z" fill="white"/>

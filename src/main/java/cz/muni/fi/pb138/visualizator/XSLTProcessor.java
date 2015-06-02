@@ -18,7 +18,7 @@ public class XSLTProcessor {
     private static final String CUBIE = "src/main/resources/xslt/cubieboard.xsl";
     private static final String RASPBERRY = "src/main/resources/xslt/raspberrypi.xsl";
     private static final String BEAGLE = "src/main/resources/xslt/";
-    private static final String COMMON = "src/main/resources/xslt/";
+    private static final String COMMON = "src/main/resources/xslt/common.xsl";
     private static final TransformerFactory FACTORY = TransformerFactory.newInstance();
 
     /**
