@@ -1,13 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 -0.104405 1173 531.209" preserveAspectRatio="xMidYMid meet" zoomAndPan="disable">
 
-    <defs id="svgEditorDefs">
-        <polygon id="svgEditorPolygonDefs" stroke="black" fill="khaki" style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-        <path id="svgEditorClosePathDefs" stroke="black" fill="khaki" style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-        <line id="svgEditorLineDefs" stroke="black" style="fill: none; vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-        <text id="svgEditorTextDefs" fill="black" style="font-family: Arial; font-size: 20px;"/>
-        <g id="svgEditorGroupDefs" fill="khaki" stroke="black" style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-    </defs>
-
     <!--BOARD-->
     <rect x="0" y="0" stroke="black" id="e1_rectangle" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="600" height="400" fill="#008000" rx="25" ry="25"/>
     <circle cx="23" cy="23" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" r="20" fill="khaki" id="e2_circle"/>

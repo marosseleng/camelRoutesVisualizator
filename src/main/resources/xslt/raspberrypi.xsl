@@ -7,21 +7,18 @@
                 doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
                 encoding="UTF-8"
                 indent="yes"/>
+    <xsl:variable name="piSVG" select="document('../boards/raspberryPi_board.svg')"/>
+    <xsl:variable name="ethernetRect" select="$piSVG//*[@id='ethernet']"/>
+
     <xsl:template match="/">
-        <svg
-                xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -0.104405 1173 531.209"
-                preserveAspectRatio="xMidYMid meet" zoomAndPan="disable">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -0.104405 1173 531.209"
+             preserveAspectRatio="xMidYMid meet" zoomAndPan="disable">
 
             <defs id="svgEditorDefs">
-                <polygon id="svgEditorPolygonDefs" stroke="black" fill="khaki"
-                         style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-                <path id="svgEditorClosePathDefs" stroke="black" fill="khaki"
-                      style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-                <line id="svgEditorLineDefs" stroke="black"
-                      style="fill: none; vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-                <text id="svgEditorTextDefs" fill="black" style="font-family: Arial; font-size: 20px;"/>
-                <g id="svgEditorGroupDefs" fill="khaki" stroke="black"
-                   style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
+                <marker id="end-marker" markerHeight="12" markerUnits="strokeWidth" markerWidth="15" orient="auto"
+                        refX="-3" refY="0" viewBox="-15 -5 20 20">
+                    <path d="M -15 -5 L 0 0 L -15 5 z" fill="white"/>
+                </marker>
             </defs>
 
             <!--BOARD-->
@@ -226,5 +223,20 @@
             <text fill="black" x="33.1743" y="379.43" id="e6_texte" style="font-family: monospace; font-size: 16px;"
                   transform="matrix(0.0184957 -1 1 0.0184957 -278.099 421.771)">Power
             </text>
+
+            <xsl:element name="line">
+                <xsl:attribute name="x1">0</xsl:attribute>
+                <xsl:attribute name="x2">
+                    <xsl:value-of select="$ethernetRect//@x"/>
+                </xsl:attribute>
+                <xsl:attribute name="y1">0</xsl:attribute>
+                <xsl:attribute name="y2">
+                    <xsl:value-of select="$ethernetRect//@y"/>
+                </xsl:attribute>
+                <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+            </xsl:element>
         </svg>
     </xsl:template>
+
+
+</xsl:stylesheet>

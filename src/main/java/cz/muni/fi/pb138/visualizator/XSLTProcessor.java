@@ -14,10 +14,40 @@ import java.io.File;
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
 public class XSLTProcessor {
-    public static void main(String[] args) throws TransformerException {
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(new StreamSource(new File("src/main/resources/cubieboard.xsl")));
-        transformer.transform(new StreamSource(new File("src/main/resources/test01.xml")), new StreamResult(new File("src/main/resources/output.svg")));
-        //TODO better use try-catch
+
+    private static final String CUBIE = "src/main/resources/xslt/cubieboard.xsl";
+    private static final String RASPBERRY = "src/main/resources/xslt/raspberrypi.xsl";
+    private static final String BEAGLE = "src/main/resources/xslt/";
+    private static final String COMMON = "src/main/resources/xslt/";
+    private static final TransformerFactory FACTORY = TransformerFactory.newInstance();
+
+    /**
+     * Creates svg file with path on selected board
+     *
+     * @param inFilePath  path to input xml file
+     * @param outFilePath path, where to store generated svg file
+     * @param boardType   type of board
+     * @throws TransformerException
+     */
+    public static void transformRoute(String inFilePath, String outFilePath, BoardType boardType) throws TransformerException {
+
+        Transformer transformer;
+
+        switch (boardType) {
+            case BEAGLEBONE:
+                transformer = FACTORY.newTransformer(new StreamSource(new File(BEAGLE)));
+                break;
+            case CUBIEBOARD:
+                transformer = FACTORY.newTransformer(new StreamSource(new File(CUBIE)));
+                break;
+            case RASPBERRY_PI:
+                transformer = FACTORY.newTransformer(new StreamSource(new File(RASPBERRY)));
+                break;
+            default:
+                transformer = FACTORY.newTransformer(new StreamSource(new File(COMMON)));
+                break;
+        }
+
+        transformer.transform(new StreamSource(new File(inFilePath)), new StreamResult(new File(outFilePath)));
     }
 }
