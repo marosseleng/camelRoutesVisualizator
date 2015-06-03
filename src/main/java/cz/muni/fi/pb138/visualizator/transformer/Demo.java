@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.visualizator;
+package cz.muni.fi.pb138.visualizator.transformer;
 
 import javax.xml.transform.TransformerException;
 
@@ -9,6 +9,6 @@ import javax.xml.transform.TransformerException;
  */
 public class Demo {
     public static void main(String[] args) throws TransformerException {
-        XSLTProcessor.transformRoute("src/main/resources/routes/test01.xml", "src/main/resources/out/output.svg", BoardType.RASPBERRY_PI);
+        XMLTools.transformRoute("src/main/resources/routes/test01.xml", "src/main/resources/out/output.svg", BoardType.RASPBERRY_PI);
     }
 }

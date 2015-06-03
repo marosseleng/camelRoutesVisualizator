@@ -1,4 +1,4 @@
-package cz.muni.fi.pb138.visualizator;
+package cz.muni.fi.pb138.visualizator.transformer;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -13,7 +13,7 @@ import java.io.File;
  *
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
-public class XSLTProcessor {
+public class XMLTools {
 
     private static final String CUBIE = "src/main/resources/xslt/cubieboard.xsl";
     private static final String RASPBERRY = "src/main/resources/xslt/raspberrypi.xsl";
