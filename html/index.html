@@ -7,13 +7,38 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+	
 	<!-- Editor + file picker + Odoslať -->
 	<section>
 
 		<form action="" method="POST" enctype="multipart/form-data">
 		
 			<div id="editor"></div>
+
+			<div id="board">
+				<center><h2>Vyber dosku<h2></center>
+				<div class="doska">
+					<input type="radio" name="doska" value="black" checked>
+					<div>
+						<img src="board2.png" class="img-responsive">
+						<center> <b> common </b> </center>
+					</div>
+				</div> <br>
+				<div class="doska">
+					<input type="radio" name="doska" value="green">
+					<div>
+						<img src="board1.png" class="img-responsive">
+						<center> <b> cubieBoard2 </b> </center>
+					</div>
+				</div><br>
+				<div class="doska">
+					<input type="radio" name="doska" value="yellow">
+					<div>
+						<img src="board3.png" class="img-responsive">
+						<center> <b> raspberryPi </b> </center>
+					</div>
+				</div>
+			</div>
 
 			<div id="panel">
 				
@@ -68,7 +93,13 @@
 			$('html, body').animate({
 				scrollTop: $("section").eq(1).offset().top
 			}, 1500, 'easeInOutCubic');
-		})	
+		});
+
+		$( '.doska' ).click( function()
+		{
+			console.log('asd');
+			$('input', this).prop("checked", true);
+		})
 
 	</script>
 	
