@@ -8,18 +8,17 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 
 /**
- * Class, with main method that transform file set as 2nd argument,
- * into file set as 3rd argument, using xsl file set as 1st argument
+ * Class providing methods related to processing of xml files, like validating and transforming
  *
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
 public class XMLTools {
 
-    private static final String CUBIE = "src/main/resources/xslt/cubieboard.xsl";
-    private static final String RASPBERRY = "src/main/resources/xslt/raspberrypi.xsl";
-    private static final String BEAGLE = "src/main/resources/xslt/";
-    private static final String COMMON = "src/main/resources/xslt/common.xsl";
     private static final TransformerFactory FACTORY = TransformerFactory.newInstance();
+    private final String CUBIE = getClass().getResource("/xslt/cubieboard.xsl").getPath();
+    private final String RASPBERRY = getClass().getResource("/xslt/raspberrypi.xsl").getPath();
+    private final String BEAGLE = getClass().getResource("/xslt/common.xsl").getPath();
+    private final String COMMON = getClass().getResource("/xslt/common.xsl").getPath();
 
     /**
      * Creates svg file with path on selected board
@@ -29,7 +28,7 @@ public class XMLTools {
      * @param boardType   type of board
      * @throws TransformerException
      */
-    public static void transformRoute(String inFilePath, String outFilePath, BoardType boardType) throws TransformerException {
+    public void transformRoute(String inFilePath, String outFilePath, BoardType boardType) throws TransformerException {
 
         Transformer transformer;
 
@@ -50,4 +49,6 @@ public class XMLTools {
 
         transformer.transform(new StreamSource(new File(inFilePath)), new StreamResult(new File(outFilePath)));
     }
+
+    //TODO add validating method
 }

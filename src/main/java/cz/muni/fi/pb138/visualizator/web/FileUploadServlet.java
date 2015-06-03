@@ -19,12 +19,13 @@ import java.io.*;
  *
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
-@WebServlet(name = "FileUploadServlet", urlPatterns = "/FileUploadServlet")
+@WebServlet(name = "FileUploadServlet", urlPatterns = "/transform")
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+
         processRequest(httpServletRequest, httpServletResponse);
     }
 
@@ -32,17 +33,19 @@ public class FileUploadServlet extends HttpServlet {
 
         httpServletResponse.setContentType("text/html");
 
-
-        final String dirPath = System.getProperty("catalina.home") + File.separator + "webapps" + File.separator + "visualizator";
-
         //direcotry for this page's files
-        (new File(dirPath)).mkdir();
+        //(new File(dirPath)).mkdir();
 
-        final Part filePart = httpServletRequest.getPart("file");
-        final PrintWriter writer = httpServletResponse.getWriter();
-        final String fileName = getFileName(filePart);
-        final String filePath = dirPath + File.separator + fileName;
+        Part filePart = httpServletRequest.getPart("file");
+        PrintWriter writer = httpServletResponse.getWriter();
 
+        String fileName = getFileName(filePart);
+        //path to file saved
+        String filePath = System.getProperty("catalina.base") + File.separator + fileName;
+        //path to output file
+        String outFilePath = System.getProperty("catalina.base") + File.separator + "output.svg";
+
+        //"saving" file to server
         try (OutputStream out = new FileOutputStream(new File(filePath));
              InputStream fileContent = filePart.getInputStream()) {
 
@@ -52,20 +55,26 @@ public class FileUploadServlet extends HttpServlet {
             while ((read = fileContent.read(buffer)) != -1) {
                 out.write(buffer, 0, read);
             }
-            writer.println("File saved: " + filePath);
         } catch (FileNotFoundException ex) {
-            writer.println("You either did not specify a file to upload " +
+            writer.write("You either did not specify a file to upload " +
                     "or are trying to upload a file to a protected or " +
                     "nonexistent location.");
-            writer.println("</br> ERROR: " + ex.getMessage());
+            writer.write("</br> ERROR: " + ex.getMessage());
         }
 
+        //transforming
         try {
-            XMLTools.transformRoute(dirPath + File.separator + "test01.xml", dirPath + File.separator + "output.svg", BoardType.RASPBERRY_PI);
+            new XMLTools().transformRoute(filePath, outFilePath, BoardType.RASPBERRY_PI);
         } catch (TransformerException ex) {
             writer.println("The transformation could not have been proceeded." + ex.getMessage());
         }
-        writer.write("<h1> NADPIS </h1>");
+
+        //writing response (svg file)
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(outFilePath)));
+        String input;
+        while ((input = bufferedReader.readLine()) != null) {
+            writer.write(input);
+        }
         writer.close();
     }
 
