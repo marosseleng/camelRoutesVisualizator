@@ -12,6 +12,12 @@ body
 	font-family: 'Lato', Arial, sans;
 }
 
+.img-responsive{
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 section
 {
 	height: 100%;
@@ -34,18 +40,65 @@ h1
 	font-size: 48px;
 }
 
+h2
+{
+	font-size: 20px;
+	color:#323632;
+}
+
 p
 {
 	font-size: 18px;
+}
+
+.doska
+{
+	height: auto;
+	width: 300px;
+	background: #fff;
+}
+
+.doska:hover
+{
+	
+	cursor: pointer;
+}
+
+input[type="radio"]
+{
+	display: none;
+}
+
+input[type="radio"]:checked + div
+{
+	
+	border-color: #A51818;
+	border-style: solid;
+
+	padding: 5px;
+	border-radius: 7px;
 }
 
 
 #editor
 {
 	height: calc( 100% - 100px );
+	width: calc( 100% - 350px );
 	font-size: 15px;
+
+	display: inline-block;
 }
 
+#board
+{
+	position: relative;
+	padding-left: 10px;
+	float: right;
+	height: calc( 100% - 100px );
+	width: 300px;
+	background: #fff;
+	box-sizing: border-box;
+}
 
 #panel
 {
@@ -90,7 +143,7 @@ input[ type="file" ]
 input[ type="submit" ]
 {
 	border: 0;
-	background: #3da70e;
+	background: #C03D7E;
 	color: #fff;
 	padding: 15px 45px;
 	text-transform: uppercase;
