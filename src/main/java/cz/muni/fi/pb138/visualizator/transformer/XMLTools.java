@@ -1,11 +1,25 @@
 package cz.muni.fi.pb138.visualizator.transformer;
 
+import org.w3c.dom.Document;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class providing methods related to processing of xml files, like validating and transforming
@@ -19,6 +33,31 @@ public class XMLTools {
     private final String RASPBERRY = getClass().getResource("/xslt/raspberrypi.xsl").getPath();
     private final String BEAGLE = getClass().getResource("/xslt/common.xsl").getPath();
     private final String COMMON = getClass().getResource("/xslt/common.xsl").getPath();
+    private String error;
+    private DocumentBuilder documentBuilder;
+
+    public XMLTools() {
+    }
+
+    /**
+     * Creates DocumentBuilder and Schema from given schema file name
+     *
+     * @param schemaName path to xsd file
+     * @throws SAXException
+     * @throws ParserConfigurationException
+     */
+    public XMLTools(String schemaName) throws SAXException, ParserConfigurationException {
+
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = schemaFactory.newSchema(new File(schemaName));
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(false);
+
+        factory.setSchema(schema);
+        documentBuilder = factory.newDocumentBuilder();
+        documentBuilder.setErrorHandler(new ValidationErrorsHandler());
+    }
 
     /**
      * Creates svg file with path on selected board
@@ -50,5 +89,38 @@ public class XMLTools {
         transformer.transform(new StreamSource(new File(inFilePath)), new StreamResult(new File(outFilePath)));
     }
 
-    //TODO add validating method
+    /**
+     * Validates given file with route
+     *
+     * @param routeFile xml file to validate
+     * @throws IOException
+     * @throws SAXException
+     */
+    public void validateRoute(String routeFile) throws IOException, SAXException {
+        Document document = documentBuilder.parse(new File(routeFile));
+    }
+
+    /**
+     * Error handler for document builder
+     */
+    class ValidationErrorsHandler implements ErrorHandler {
+
+        @Override
+        public void warning(SAXParseException exception) throws SAXException {
+            Logger.getAnonymousLogger(getClass().getName()).log(Level.INFO, exception.getMessage());
+        }
+
+        @Override
+        public void error(SAXParseException exception) throws SAXException {
+            error = exception.getMessage();
+            throw new SAXException(error);
+        }
+
+        @Override
+        public void fatalError(SAXParseException exception) throws SAXException {
+            error = exception.getMessage();
+            throw new SAXException(error);
+        }
+    }
+
 }
