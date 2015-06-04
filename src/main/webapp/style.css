@@ -53,14 +53,12 @@ p
 
 .doska
 {
+	width:100%;
 	height: auto;
-	width: 300px;
-	background: #fff;
 }
 
 .doska:hover
 {
-	
 	cursor: pointer;
 }
 
@@ -83,7 +81,7 @@ input[type="radio"]:checked + div
 #editor
 {
 	height: calc( 100% - 100px );
-	width: calc( 100% - 350px );
+	width: 80%;
 	font-size: 15px;
 
 	display: inline-block;
@@ -91,13 +89,14 @@ input[type="radio"]:checked + div
 
 #board
 {
-	position: relative;
-	padding-left: 10px;
 	float: right;
 	height: calc( 100% - 100px );
-	width: 300px;
+	width: calc( 20% - 40px );
+	padding: 0 20px;
 	background: #fff;
 	box-sizing: border-box;
+
+	overflow: auto;
 }
 
 #panel
