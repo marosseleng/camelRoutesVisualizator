@@ -5,37 +5,55 @@
 	<title>Document</title>
 
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	
 	<!-- Editor + file picker + Odoslať -->
 	<section>
+		<<<<<<< HEAD
 		Silverspoon Camel Routes Vizualizace
+		=======
+		Silverspoon Camel Routes Visualization
+		>>>>>>> d1607f1d66774b3ce461f4e46103e42c27a716d6
 		<form action="transform" method="POST" enctype="multipart/form-data">
 		
 			<div id="editor"></div>
 
 			<div id="board">
-				<center><h2>Vyber dosku<h2></center>
+				<center>
+					<h2>Choose a board<h2>
+				</center>
 				<div class="doska">
-					<input type="radio" name="doska" value="black" checked>
+					<input type="radio" name="doska" value="common" checked>
 					<div>
-						<img src="board2.png" class="img-responsive">
+						<img src="img/board2.png" class="img-responsive">
 						<center> <b> common </b> </center>
 					</div>
 				</div> <br>
 				<div class="doska">
-					<input type="radio" name="doska" value="green">
+					<input type="radio" name="doska" value="cubie">
 					<div>
-						<img src="board1.png" class="img-responsive">
+						<img src="img/board1.png" class="img-responsive">
 						<center> <b> cubieBoard2 </b> </center>
 					</div>
 				</div><br>
 				<div class="doska">
-					<input type="radio" name="doska" value="yellow">
+					<input type="radio" name="doska" value="raspberry">
 					<div>
-						<img src="board3.png" class="img-responsive">
+						<img src="img/board3.png" class="img-responsive">
 						<center> <b> raspberryPi </b> </center>
+					</div>
+				</div>
+				<br>
+
+				<div class="doska">
+					<input type="radio" name="doska" value="beaglebone">
+
+					<div>
+						<img src="img/board4.png" class="img-responsive">
+						<center><b> beagleBone </b></center>
 					</div>
 				</div>
 			</div>
@@ -63,11 +81,62 @@
 
 	<!-- Spam -->
 	<section>
-		
-		<h1> Spam zone </h1>
 
-		<p> This is going to be epic </p>
+		<div class="info">
+			<h1> How does it work? </h1>
 
+			<p> - select file with xml code or type it in our editor </p>
+
+			<p> - select board on which your code should apply </p>
+
+			<p> - click send and have a look at your board </p> <br>
+
+			<h1> About project: </h1>
+
+			<a href="https://docs.google.com/document/d/1VYe_K9NvOXHtS-R-9H3xywKGm6uvraHk8RWuXHH7qSQ/pub"
+			   target="blank">project info</a> <br><br>
+
+			<a href="https://github.com/maroselo/visualizator" target="blank">github repository</a>
+		</div>
+
+		<div class="example">
+
+		</div>
+
+		<div id="footer">
+			<div class="ms">
+				<b>Maroš Šeleng</b> - project manager, Java <br>
+				<a href="https://github.com/maroselo" target="blank"><i class="fa fa-git-square fa-2x"></i></a>
+				<a href="https://www.facebook.com/maros.seleng" target="blank"><i
+						class="fa fa-facebook-square fa-2x"></i></a>
+				<a href="https://plus.google.com/u/0/113926201976791203813/about" target="blank"><i
+						class="fa fa-google-plus-square fa-2x"></i></a>
+			</div>
+			<div class="jg">
+				<b>Jan Grundmann</b> - Xslt transformation <br>
+				<a href="https://github.com/jangrundmann" target="blank"><i class="fa fa-git-square fa-2x"></i></a>
+				<a href="https://www.facebook.com/zlosin666?fref=ts" target="blank"><i
+						class="fa fa-facebook-square fa-2x"></i></a>
+				<a href="https://plus.google.com/114052460056038400281/posts" target="blank"><i
+						class="fa fa-google-plus-square fa-2x"></i></a>
+			</div>
+			<div class="av">
+				<b>Adam Vondráček</b> - Xslt transformation <br>
+				<a href="https://github.com/Adam144" target="blank"><i class="fa fa-git-square fa-2x"></i></a>
+				<a href="https://www.facebook.com/adam.vondracek.96?fref=ts" target="blank"><i
+						class="fa fa-facebook-square fa-2x"></i></a>
+				<a href="https://plus.google.com/u/0/113926201976791203813/about" target="blank"><i
+						class="fa fa-google-plus-square fa-2x"></i></a>
+			</div>
+			<div class="jb">
+				<b>Jaroslav Bončo</b> - web application <br>
+				<a href="https://github.com/jarkojefamozny" target="blank"><i class="fa fa-git-square fa-2x"></i></a>
+				<a href="https://www.facebook.com/jaroslav.bonco" target="blank"><i
+						class="fa fa-facebook-square fa-2x"></i></a>
+				<a href="https://plus.google.com/u/0/100439755121035160173/posts" target="blank"><i
+						class="fa fa-google-plus-square fa-2x"></i></a>
+			</div>
+		</div>
 	</section>
 
 	<script src="ace.min.js" type="text/javascript"></script>
