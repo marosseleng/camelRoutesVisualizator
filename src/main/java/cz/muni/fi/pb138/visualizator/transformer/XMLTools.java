@@ -1,6 +1,5 @@
 package cz.muni.fi.pb138.visualizator.transformer;
 
-import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -31,7 +30,7 @@ public class XMLTools {
     private static final TransformerFactory FACTORY = TransformerFactory.newInstance();
     private final String CUBIE = getClass().getResource("/xslt/cubieboard.xsl").getPath();
     private final String RASPBERRY = getClass().getResource("/xslt/raspberrypi.xsl").getPath();
-    private final String BEAGLE = getClass().getResource("/xslt/common.xsl").getPath();
+    private final String BEAGLE = getClass().getResource("/xslt/beagleboneblack.xsl").getPath();
     private final String COMMON = getClass().getResource("/xslt/common.xsl").getPath();
     private String error;
     private DocumentBuilder documentBuilder;
@@ -69,6 +68,10 @@ public class XMLTools {
      */
     public void transformRoute(String inFilePath, String outFilePath, BoardType boardType) throws TransformerException {
 
+        System.out.println(CUBIE);
+        System.out.println(COMMON);
+        System.out.println(RASPBERRY);
+        System.out.println(BEAGLE);
         Transformer transformer;
 
         switch (boardType) {
@@ -97,7 +100,7 @@ public class XMLTools {
      * @throws SAXException
      */
     public void validateRoute(String routeFile) throws IOException, SAXException {
-        Document document = documentBuilder.parse(new File(routeFile));
+        documentBuilder.parse(new File(routeFile));
     }
 
     /**

@@ -26,10 +26,8 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
-        processRequest(httpServletRequest, httpServletResponse);
-    }
-
-    protected void processRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        //retrieving type of a board
+        String board = httpServletRequest.getParameter("doska");
 
         httpServletResponse.setContentType("text/html");
 
@@ -63,8 +61,26 @@ public class FileUploadServlet extends HttpServlet {
         }
 
         //transforming
+        BoardType boardType;
         try {
-            new XMLTools().transformRoute(filePath, outFilePath, BoardType.RASPBERRY_PI);
+            switch (board) {
+                case "common":
+                    boardType = BoardType.COMMON;
+                    break;
+                case "cubie":
+                    boardType = BoardType.CUBIEBOARD;
+                    break;
+                case "raspberry":
+                    boardType = BoardType.RASPBERRY_PI;
+                    break;
+                case "beaglebone":
+                    boardType = BoardType.BEAGLEBONE;
+                    break;
+                default:
+                    boardType = BoardType.COMMON;
+                    break;
+            }
+            new XMLTools().transformRoute(filePath, outFilePath, boardType);
         } catch (TransformerException ex) {
             writer.println("The transformation could not have been proceeded." + ex.getMessage());
         }
@@ -76,6 +92,10 @@ public class FileUploadServlet extends HttpServlet {
             writer.write(input);
         }
         writer.close();
+
+        //cleaning up the mess
+        new File(outFilePath).delete();
+        new File(filePath).delete();
     }
 
     private String getFileName(final Part filePart) {
