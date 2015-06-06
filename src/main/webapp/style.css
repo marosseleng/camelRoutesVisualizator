@@ -56,7 +56,7 @@ p
 
 .doska
 {
-	width:100%;
+	width: 100%;
 	height: auto;
 }
 
@@ -94,7 +94,7 @@ input[type="radio"]:checked + div
 {
 	float: right;
 	height: calc( 100% - 100px );
-	width: calc( 20% - 40px );
+	width: calc(20% - 40px);
 	padding: 0 20px;
 	background: #fff;
 	box-sizing: border-box;
@@ -194,8 +194,7 @@ input[ type="submit" ]:active
 	cursor: pointer;
 }
 
-#footer
-{
+#footer {
 	position: absolute;
 	bottom: 0;
 
@@ -209,34 +208,30 @@ input[ type="submit" ]:active
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
-.ms
-{
-	float:left;
+.ms {
+	float: left;
 	text-align: center;
 	width: calc(25% - 7.5px);
 	height: 100%;
 }
 
-.jg
-{
+.jg {
 	text-align: center;
-	float:left;
+	float: left;
 	width: calc(25% - 7.5px);
 	height: 100%;
 }
 
-.av
-{
+.av {
 	text-align: center;
-	float:left;
+	float: left;
 	width: calc(25% - 7.5px);
 	height: 100%;
 }
 
-.jb
-{
+.jb {
 	text-align: center;
-	float:left;
+	float: left;
 	width: calc(25% - 7.5px);
 	height: 100%;
 }
