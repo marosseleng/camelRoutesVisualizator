@@ -35,29 +35,6 @@ public class XMLTools {
     private String error;
     private DocumentBuilder documentBuilder;
 
-    public XMLTools() {
-    }
-
-    /**
-     * Creates DocumentBuilder and Schema from given schema file name
-     *
-     * @param schemaName path to xsd file
-     * @throws SAXException
-     * @throws ParserConfigurationException
-     */
-    public XMLTools(String schemaName) throws SAXException, ParserConfigurationException {
-
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(new File(schemaName));
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(false);
-
-        factory.setSchema(schema);
-        documentBuilder = factory.newDocumentBuilder();
-        documentBuilder.setErrorHandler(new ValidationErrorsHandler());
-    }
-
     /**
      * Creates svg file with path on selected board
      *
@@ -68,10 +45,6 @@ public class XMLTools {
      */
     public void transformRoute(String inFilePath, String outFilePath, BoardType boardType) throws TransformerException {
 
-        System.out.println(CUBIE);
-        System.out.println(COMMON);
-        System.out.println(RASPBERRY);
-        System.out.println(BEAGLE);
         Transformer transformer;
 
         switch (boardType) {
@@ -95,11 +68,22 @@ public class XMLTools {
     /**
      * Validates given file with route
      *
-     * @param routeFile xml file to validate
+     * @param routeFile  xml file to validate
+     * @param schemaFile path to schema file, that validates input files
      * @throws IOException
      * @throws SAXException
      */
-    public void validateRoute(String routeFile) throws IOException, SAXException {
+    public void validateRoute(String schemaFile, String routeFile) throws IOException, SAXException, ParserConfigurationException {
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = schemaFactory.newSchema(new File(schemaFile));
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(false);
+
+        factory.setSchema(schema);
+        documentBuilder = factory.newDocumentBuilder();
+        documentBuilder.setErrorHandler(new ValidationErrorsHandler());
+
         documentBuilder.parse(new File(routeFile));
     }
 

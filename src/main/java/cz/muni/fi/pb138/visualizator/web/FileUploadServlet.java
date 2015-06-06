@@ -23,6 +23,9 @@ import java.io.*;
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 
+    private String inFileField;
+    private String outFileField;
+
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
@@ -94,8 +97,14 @@ public class FileUploadServlet extends HttpServlet {
         writer.close();
 
         //cleaning up the mess
-        new File(outFilePath).delete();
-        new File(filePath).delete();
+        inFileField = filePath;
+        outFileField = outFilePath;
+    }
+
+    @Override
+    public void destroy() {
+        new File(inFileField).delete();
+        new File(outFileField).delete();
     }
 
     private String getFileName(final Part filePart) {
