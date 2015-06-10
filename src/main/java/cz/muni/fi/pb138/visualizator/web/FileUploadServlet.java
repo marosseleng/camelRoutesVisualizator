@@ -29,18 +29,25 @@ public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
+        //data from editor
+        String stringFromEditor = httpServletRequest.getParameter("editor");
+
         //retrieving type of a board
         String board = httpServletRequest.getParameter("doska");
 
         httpServletResponse.setContentType("text/html");
-
-        //direcotry for this page's files
-        //(new File(dirPath)).mkdir();
-
-        Part filePart = httpServletRequest.getPart("file");
         PrintWriter writer = httpServletResponse.getWriter();
 
+        //file uploaded to server
+        Part filePart = httpServletRequest.getPart("file");
+
         String fileName = getFileName(filePart);
+
+        if (stringFromEditor.length() != 0) {
+            //TODO
+        }
+
+
         //path to file saved
         String filePath = System.getProperty("catalina.base") + File.separator + fileName;
         //path to output file
