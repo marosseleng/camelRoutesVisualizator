@@ -2,6 +2,7 @@ package cz.muni.fi.pb138.visualizator.web;
 
 import cz.muni.fi.pb138.visualizator.transformer.BoardType;
 import cz.muni.fi.pb138.visualizator.transformer.XMLTools;
+import cz.muni.fi.pb138.visualizator.util.SpringTransformerException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -41,34 +42,38 @@ public class FileUploadServlet extends HttpServlet {
         //file uploaded to server
         Part filePart = httpServletRequest.getPart("file");
 
-        String fileName = getFileName(filePart);
+        String fileName;
 
         if (stringFromEditor.length() != 0) {
-            //TODO
+            fileName = "testFile.xml";
+        } else {
+            fileName = getFileName(filePart);
         }
-
 
         //path to file saved
         String filePath = System.getProperty("catalina.base") + File.separator + fileName;
+
+        if (stringFromEditor.length() == 0) {
+
+            try {
+                //"saving" file to server
+                saveUploadedFile(filePart, new File(filePath));
+            } catch (SpringTransformerException ex) {
+                writer.write("You either did not specify a file to upload " +
+                        "or are trying to upload a file to a protected or " +
+                        "nonexistent location.");
+                writer.write("</br> ERROR: " + ex.getMessage());
+            }
+        } else {
+            try {
+                saveFileFromEditor(stringFromEditor, new File(filePath));
+            } catch (SpringTransformerException ex) {
+                ex.printStackTrace();
+            }
+        }
+
         //path to output file
         String outFilePath = System.getProperty("catalina.base") + File.separator + "output.svg";
-
-        //"saving" file to server
-        try (OutputStream out = new FileOutputStream(new File(filePath));
-             InputStream fileContent = filePart.getInputStream()) {
-
-            int read;
-            final byte[] buffer = new byte[1024];
-
-            while ((read = fileContent.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-        } catch (FileNotFoundException ex) {
-            writer.write("You either did not specify a file to upload " +
-                    "or are trying to upload a file to a protected or " +
-                    "nonexistent location.");
-            writer.write("</br> ERROR: " + ex.getMessage());
-        }
 
         //transforming
         BoardType boardType;
@@ -97,11 +102,13 @@ public class FileUploadServlet extends HttpServlet {
 
         //writing response (svg file)
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(outFilePath)));
+
         String input;
         while ((input = bufferedReader.readLine()) != null) {
             writer.write(input);
         }
         writer.close();
+        bufferedReader.close();
 
         //cleaning up the mess
         inFileField = filePath;
@@ -114,6 +121,10 @@ public class FileUploadServlet extends HttpServlet {
         new File(outFileField).delete();
     }
 
+    /**
+     * @param filePart
+     * @return
+     */
     private String getFileName(final Part filePart) {
         final String partHeader = filePart.getHeader("content-disposition");
         for (String content : partHeader.split(";")) {
@@ -122,5 +133,41 @@ public class FileUploadServlet extends HttpServlet {
             }
         }
         return null;
+    }
+
+    /**
+     * @param editorData
+     * @param fileToCreate
+     * @throws SpringTransformerException
+     */
+    private void saveFileFromEditor(String editorData, File fileToCreate) throws SpringTransformerException {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileToCreate))) {
+            bufferedWriter.write(editorData);
+            bufferedWriter.flush();
+        } catch (IOException ex) {
+            throw new SpringTransformerException(ex);
+        }
+    }
+
+
+    /**
+     * @param filePart
+     * @param fileToCreate
+     * @throws SpringTransformerException
+     */
+    private void saveUploadedFile(Part filePart, File fileToCreate) throws SpringTransformerException {
+        try (OutputStream out = new FileOutputStream(fileToCreate);
+             InputStream fileContent = filePart.getInputStream()) {
+
+            int read;
+            final byte[] BUFFER = new byte[1024];
+
+            while ((read = fileContent.read(BUFFER)) != -1) {
+                out.write(BUFFER, 0, read);
+            }
+            out.flush();
+        } catch (IOException ex) {
+            throw new SpringTransformerException(ex);
+        }
     }
 }
