@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans>
     <bean id=" webCamBean" class="org.jboss.qa.camel.WebCamBean">
         <property name="picturesDirectory" value="/var/www/pictures"/>
         <property name="outName" value="picture"/>
         <property name="baseUrl" value="http://cubieboard/pictures"/>
     </bean>
-    <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
+    <camelContext trace="false">
         <route customId="true" id="iot-door-bell-route">
             <from uri="gpio://P1_11?value=HIGH"/>
             <to uri="bean:webCamBean?method=getPicture"/>
