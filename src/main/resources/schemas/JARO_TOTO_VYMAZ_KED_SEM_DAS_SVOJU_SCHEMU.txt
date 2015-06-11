@@ -1,1 +1,69 @@
-do tohto priecinka daj schemu co napises a tento subor potom zmaz
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:camel="http://camel.apache.org/schema/spring"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           elementFormDefault="qualified"
+           >
+
+    <xs:element name="beans" type="beansType">
+        <xs:unique name="unique_id">
+            <xs:selector xpath="beans/bean"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:unique name="route_id">
+            <xs:selector xpath="beans/camelContext/route"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:complexType name="beansType">
+        <xs:sequence>
+            <xs:element name="bean" type="beanType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="camelContext" type="camelType" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="beanType">
+        <xs:sequence>
+            <xs:element name="property" type="propertyType" minOccurs="3" maxOccurs="3"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="class" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="camelType">
+        <xs:sequence>
+            <xs:element name="route" type="routeType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="trace" type="tfType" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="routeType">
+        <xs:sequence>
+            <xs:element name="from" type="fromType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="to" type="toType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="customId" type="tfType" use="required"/>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="propertyType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="fromType">
+        <xs:attribute name="uri" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="toType">
+        <xs:attribute name="uri" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="tfType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="true|false"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
