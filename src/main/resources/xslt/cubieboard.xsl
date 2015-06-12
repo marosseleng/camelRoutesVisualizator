@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns="http://www.w3.org/1999/xhtml">
+                xmlns:spring="http://camel.apache.org/schema/spring"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fn="http://www.w3.org/2005/xpath-functions">
     <xsl:output method="xml"
                 doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
                 doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
                 encoding="UTF-8"
                 indent="yes"/>
+    
+    <xsl:variable name="cubieSVG" select="document('../boards/cubieBoard2_board.svg')"/>
+    <xsl:variable name="ethernetRect" select="$cubieSVG//*[@id='ethernet']"/>
+    <xsl:variable name="miniUSBRect" select="$cubieSVG//*[@id='miniUSB']"/>
+    <xsl:variable name="USBRect" select="$cubieSVG//*[@id='USB1_USB2']"/>
+    <xsl:variable name="audioRect" select="$cubieSVG//*[@id='audio']"/>
+    
     <xsl:template match="/">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800"
-             preserveAspectRatio="xMidYMid meet" zoomAndPan="disable" transform="" id="svg2" version="1.1">
-            <defs id="svgEditorDefs">
-                <polygon id="svgEditorPolygonDefs" stroke="black" fill="khaki"
-                         style="vector-effect: non-scaling-stroke; stroke-width: 1px;"/>
-                <text id="svgEditorTextDefs" fill="black" style="font-family: Arial; font-size: 20px;"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" >
+            <defs>
+                <marker id="end-marker" markerHeight="12" markerUnits="strokeWidth" markerWidth="15" orient="auto"
+                        refX="-3" refY="0" viewBox="-15 -5 20 20">
+                    <path d="M -15 -5 L 0 0 L -15 5 z" fill="white"/>
+                </marker>
             </defs>
             <!--BOARD-->
             <rect x="0" y="0" stroke="black" id="board" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
@@ -154,7 +163,7 @@
                 USB 2
             </text>
             <rect x="538" y="176" stroke="white" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
-                  width="62" height="46" fill="dimgray" id="e67_rect" rx="0" ry="0"/>
+                  width="62" height="46" fill="dimgray" id="miniUSB" rx="0" ry="0"/>
             <rect x="514" y="124" stroke="white" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
                   width="108" height="25" rx="0" ry="0" id="audio" fill="black"/>
             <text fill="white" x="543" y="141" id="e69_texte" style="font-family: serif; font-size: 14px;">Audio</text>
@@ -163,7 +172,7 @@
             <text fill="white" x="29" y="350" id="e71_texte" style="font-family: serif; font-size: 14px;">DATA CARD
             </text>
             <rect x="1" y="142" stroke="white" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="82"
-                  height="88" fill="dimgray" rx="0" ry="0" id="e72_card"/>
+                  height="88" fill="dimgray" rx="0" ry="0" id="HDMI"/>
             <text fill="white" x="544" y="205" id="e73_texte" style="font-family: serif; font-size: 14px;">miniUSB
             </text>
             <text fill="white" x="17" y="184" id="e74_texte" style="font-family: serif; font-size: 14px;">HDMI</text>
@@ -177,8 +186,217 @@
                   transform="matrix(0 -1 1 0 133.016 37.4208)">POWER
             </text>
             <rect x="1" y="23" stroke="white" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="62"
-                  height="46" fill="dimgray" rx="0" ry="0" id="e80_rect"/>
+                  height="46" fill="dimgray" rx="0" ry="0" id="DC5V"/>
             <text fill="#FFFFFF" x="12" y="52" id="e81_texte" style="font-family: serif; font-size: 14px;">DC 5V</text>
-        </svg>
+            <xsl:apply-templates/>            
+        </svg>        
+    </xsl:template>
+    <xsl:template match="spring:camelContext">     
+        <xsl:apply-templates select="spring:route"/>
+    </xsl:template>
+    <xsl:template match="spring:route">
+        <xsl:param name="iters"/>        
+        <xsl:apply-templates select="spring:from">
+            <xsl:with-param name="iters" select="0"/>
+        </xsl:apply-templates>
+        <xsl:for-each select="spring:to">
+            <xsl:call-template name="to">
+                <xsl:with-param name="iters" select="position()"/>
+            </xsl:call-template>
+        </xsl:for-each>          
+    </xsl:template>
+    <xsl:template match="spring:from">
+        <xsl:param name="iters"/>
+        <xsl:variable name="from_uri" select="string(./@uri)"/>
+        <xsl:variable name="pin" select="substring-after(substring-before($from_uri,'?'),'//')"/>
+        <xsl:element name="rect" namespace="http://www.w3.org/2000/svg">
+            <xsl:attribute name="x">150</xsl:attribute>
+            <xsl:attribute name="y">140</xsl:attribute>
+            <xsl:attribute name="stroke">white</xsl:attribute>
+            <xsl:attribute name="id">
+                <xsl:value-of select="$iters"/>
+            </xsl:attribute>
+            <xsl:attribute name="mode">
+                <xsl:value-of select="concat('pin',substring-after($pin,'_'))"/>
+            </xsl:attribute>
+            <xsl:attribute name="style">stroke-width: 1px; vector-effect: non-scaling-stroke;</xsl:attribute>
+            <xsl:attribute name="height">40</xsl:attribute>
+            <xsl:attribute name="width">60</xsl:attribute>
+            <xsl:attribute name="fill">white</xsl:attribute>
+        </xsl:element>       
+        <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+            <xsl:attribute name="x">155</xsl:attribute>
+            <xsl:attribute name="y">165</xsl:attribute>  
+            <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+            <xsl:attribute name="fill">black</xsl:attribute>
+            <xsl:value-of select="substring-before($from_uri,':')"/>             
+        </xsl:element>
+        <xsl:choose>
+            <xsl:when test="contains($pin,'P1')">
+                <xsl:variable name="pinno" select="substring-after($pin,'_')"/>
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">                    
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="180"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cy"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="140"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+                <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+                    <xsl:attribute name="x"><xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx"/></xsl:attribute>
+                    <xsl:attribute name="y">52</xsl:attribute>  
+                    <xsl:attribute name="style">font-family: serif; font-size: 13px;</xsl:attribute>            
+                    <xsl:attribute name="fill">white</xsl:attribute>
+                    <xsl:value-of select="$pin"/>             
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains($pin,'P2')">
+                <xsl:variable name="pinno" select="substring-after($pin,'_')"/>
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">                    
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="180"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cy"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="180"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+                <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+                    <xsl:attribute name="x"><xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx"/></xsl:attribute>
+                    <xsl:attribute name="y">350</xsl:attribute>  
+                    <xsl:attribute name="style">font-family: serif; font-size: 13px;</xsl:attribute>            
+                    <xsl:attribute name="fill">white</xsl:attribute>
+                    <xsl:value-of select="$pin"/>             
+                </xsl:element>
+            </xsl:when>           
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="spring:to" name="to">
+        <xsl:param name="iters"/>
+        <xsl:variable name="to_uri" select="string(./@uri)"/>
+        <xsl:element name="rect" namespace="http://www.w3.org/2000/svg">
+            <xsl:attribute name="x">
+                <xsl:value-of select="$iters*80+150"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">140</xsl:attribute>
+            <xsl:attribute name="stroke">white</xsl:attribute>
+            <xsl:attribute name="id">
+                <xsl:value-of select="$iters"/>
+            </xsl:attribute>
+            <xsl:attribute name="style">stroke-width: 1px; vector-effect: non-scaling-stroke;</xsl:attribute>
+            <xsl:attribute name="height">40</xsl:attribute>
+            <xsl:attribute name="width">60</xsl:attribute>
+            <xsl:attribute name="fill">white</xsl:attribute>
+        </xsl:element>        
+        <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+            <xsl:attribute name="x">
+                <xsl:value-of select="$iters*80+155"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">165</xsl:attribute>  
+            <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+            <xsl:attribute name="fill">black</xsl:attribute>
+            <xsl:value-of select="substring-before($to_uri,':')"/>             
+        </xsl:element> 
+        <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+            <xsl:attribute name="x1">
+                <xsl:value-of select="$iters*80+130"/>
+            </xsl:attribute>
+            <xsl:attribute name="x2">
+                <xsl:value-of select="$iters*80+150"/>
+            </xsl:attribute>
+            <xsl:attribute name="y1">160</xsl:attribute>
+            <xsl:attribute name="y2">160</xsl:attribute>
+            <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+        </xsl:element>
+        <xsl:choose>
+            <xsl:when test="contains($to_uri,'localhost')">
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$iters*80+210"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="$ethernetRect/@x"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">160</xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains($to_uri,'miniUSB')">
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$iters*80+210"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="$miniUSBRect/@x"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">160</xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains($to_uri,'audio')">
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$iters*80+210"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="$audioRect/@x"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">160</xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+            </xsl:when> 
+            <xsl:when test="contains($to_uri,'USB1')">
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$iters*80+210"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">160</xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="$USBRect/@y"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="contains($to_uri,'USB2')">
+                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x1">
+                        <xsl:value-of select="$iters*80+210"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="x2">
+                        <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y1">160</xsl:attribute>
+                    <xsl:attribute name="y2">
+                        <xsl:value-of select="$USBRect/@y"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                </xsl:element>
+            </xsl:when> 
+        </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>
