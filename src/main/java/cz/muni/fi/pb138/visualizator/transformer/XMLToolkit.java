@@ -25,15 +25,15 @@ import java.util.logging.Logger;
  *
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
-public class XMLTools {
+public class XMLToolkit {
 
     private static final TransformerFactory FACTORY = TransformerFactory.newInstance();
     private final String CUBIE = getClass().getResource("/xslt/cubieboard.xsl").getPath();
     private final String RASPBERRY = getClass().getResource("/xslt/raspberrypi.xsl").getPath();
     private final String BEAGLE = getClass().getResource("/xslt/beagleboneblack.xsl").getPath();
     private final String COMMON = getClass().getResource("/xslt/common.xsl").getPath();
+    private final String SCHEMA = getClass().getResource("/schemas/schema.xsd").getPath();
     private String error;
-    private DocumentBuilder documentBuilder;
 
     /**
      * Creates svg file with path on selected board
@@ -68,23 +68,27 @@ public class XMLTools {
     /**
      * Validates given file with route
      *
-     * @param routeFile  xml file to validate
-     * @param schemaFile path to schema file, that validates input files
-     * @throws IOException
-     * @throws SAXException
+     * @param routeFile xml file to validate
+     * @return true, if validation was successful, false otherwise
      */
-    public void validateRoute(String schemaFile, String routeFile) throws IOException, SAXException, ParserConfigurationException {
+    public boolean validateRoute(String routeFile) {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = schemaFactory.newSchema(new File(schemaFile));
+        try {
+            Schema schema = schemaFactory.newSchema(new File(SCHEMA));
 
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(false);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(false);
 
-        factory.setSchema(schema);
-        documentBuilder = factory.newDocumentBuilder();
-        documentBuilder.setErrorHandler(new ValidationErrorsHandler());
+            factory.setSchema(schema);
+            DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+            documentBuilder.setErrorHandler(new ValidationErrorsHandler());
 
-        documentBuilder.parse(new File(routeFile));
+            documentBuilder.parse(new File(routeFile));
+        } catch (SAXException | IOException | ParserConfigurationException ex) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
