@@ -18,14 +18,14 @@
 
     <xs:complexType name="beansType">
         <xs:sequence>
-            <xs:element name="bean" type="beanType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="bean" type="beanType" minOccurs="1" maxOccurs="unbounded"/>
             <xs:element name="camelContext" type="camelType" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="beanType">
         <xs:sequence>
-            <xs:element name="property" type="propertyType" minOccurs="3" maxOccurs="3"/>
+            <xs:element name="property" type="propertyType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="class" type="xs:string" use="required"/>
@@ -33,7 +33,7 @@
 
     <xs:complexType name="camelType">
         <xs:sequence>
-            <xs:element name="route" type="routeType" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="route" type="routeType" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="trace" type="tfType" use="required"/>
     </xs:complexType>
