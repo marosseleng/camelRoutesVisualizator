@@ -11,6 +11,14 @@
     <xsl:variable name="pinNumber" select="substring(//from/@uri,10,2)"/>
     <xsl:variable name="pinNumberFinal" select="translate($pinNumber,'?','')"/>
     <xsl:variable name="outPin" select="$piSVG//*[@id=$pinNumberFinal]"/>
+    <xsl:variable name="beanWidth">80</xsl:variable>
+    <xsl:variable name="beanHeight">45</xsl:variable>
+    <xsl:variable name="beansX">45</xsl:variable>
+    <xsl:variable name="beansY">80</xsl:variable>
+    <xsl:variable name="beansWidth">350</xsl:variable>
+    <xsl:variable name="beansHeight">200</xsl:variable>
+    <xsl:variable name="beanTop" select="((round($beansHeight div 2)) + $beansY - (round($beanHeight div 2)))"/>
+    <xsl:variable name="mqqtBeanX">310</xsl:variable>
 
     <xsl:template match="/">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -43,7 +51,22 @@
                     fill="oldlace" id="e9_circle"/>
             <circle cx="380" cy="23" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" r="9"
                     fill="oldlace" id="e10_circle"/>
-            <rect x="45" y="80" stroke="black" fill="#1C1C1C" width="350" height="200"/>
+            <xsl:element name="rect">
+                <xsl:attribute name="x">
+                    <xsl:value-of select="$beansX"/>
+                </xsl:attribute>
+                <xsl:attribute name="y">
+                    <xsl:value-of select="$beansY"/>
+                </xsl:attribute>
+                <xsl:attribute name="width">
+                    <xsl:value-of select="$beansWidth"/>
+                </xsl:attribute>
+                <xsl:attribute name="height">
+                    <xsl:value-of select="$beansHeight"/>
+                </xsl:attribute>
+                <xsl:attribute name="stroke">black</xsl:attribute>
+                <xsl:attribute name="fill">#1C1C1C</xsl:attribute>
+            </xsl:element>
 
             <!--PIN BACKGROUND-->
             <rect x="270" y="4" id="e11_rectangle" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
@@ -227,15 +250,24 @@
             </text>
 
             <xsl:apply-templates mode="routeTemplate" select="//route"/>
+            <xsl:call-template name="mqqtTemplate"/>
         </svg>
     </xsl:template>
 
     <xsl:template match="//from" mode="routeTemplate">
         <xsl:element name="rect">
-            <xsl:attribute name="x">45</xsl:attribute>
-            <xsl:attribute name="y">154</xsl:attribute>
-            <xsl:attribute name="width">80</xsl:attribute>
-            <xsl:attribute name="height">45</xsl:attribute>
+            <xsl:attribute name="x">
+                <xsl:value-of select="$beansX + 5"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop"/>
+            </xsl:attribute>
+            <xsl:attribute name="width">
+                <xsl:value-of select="$beanWidth"/>
+            </xsl:attribute>
+            <xsl:attribute name="height">
+                <xsl:value-of select="$beanHeight"/>
+            </xsl:attribute>
             <xsl:attribute name="stroke">black</xsl:attribute>
             <xsl:attribute name="fill">white</xsl:attribute>
             <xsl:attribute name="id">fromRect</xsl:attribute>
@@ -243,23 +275,61 @@
         <xsl:element name="text">
             <xsl:attribute name="fill">black</xsl:attribute>
             <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
-            <xsl:attribute name="x">64</xsl:attribute>
-            <xsl:attribute name="y">180</xsl:attribute>
+            <xsl:attribute name="x">
+                <xsl:value-of select="$beansX + 24"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop + 30"/>
+            </xsl:attribute>
             gpio
         </xsl:element>
-        <xsl:variable name="xcorHalf" select="($outPin/@x - 58) div 2"/>
         <xsl:variable name="ycorHalf" select="(154-$outPin/@y) div 2"/>
+        <xsl:variable name="beanXHalf" select="round($beanWidth div 2) + $beansX"/>
         <xsl:element name="polyline">
             <xsl:attribute name="points"><xsl:value-of select="$outPin/@x + 2"/>,<xsl:value-of
                     select="$outPin/@y + 2"/><xsl:text> </xsl:text><xsl:value-of select="$outPin/@x + 2"/>,<xsl:value-of
-                    select="round($ycorHalf)"/> 85,<xsl:value-of
-                    select="round($ycorHalf)"/> 85,154
+                    select="round($ycorHalf)"/><xsl:text> </xsl:text><xsl:value-of select="$beanXHalf"/>,<xsl:value-of
+                    select="round($ycorHalf)"/><xsl:text> </xsl:text><xsl:value-of select="$beanXHalf"/>,<xsl:value-of
+                    select="$beanTop"/>
             </xsl:attribute>
             <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
             </xsl:attribute>
         </xsl:element>
-
     </xsl:template>
-
-
+    <xsl:template match="//to[starts-with(@uri,'mqqt')]" name="mqqtTemplate">
+        <xsl:element name="rect">
+            <xsl:attribute name="x">
+                <xsl:value-of select="$mqqtBeanX"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop"/>
+            </xsl:attribute>
+            <xsl:attribute name="width">
+                <xsl:value-of select="$beanWidth"/>
+            </xsl:attribute>
+            <xsl:attribute name="height">
+                <xsl:value-of select="$beanHeight"/>
+            </xsl:attribute>
+            <xsl:attribute name="stroke">black</xsl:attribute>
+            <xsl:attribute name="fill">white</xsl:attribute>
+            <xsl:attribute name="id">mqqtRect</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="text">
+            <xsl:attribute name="fill">black</xsl:attribute>
+            <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
+            <xsl:attribute name="x">
+                <xsl:value-of select="$mqqtBeanX + 19"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop + 30"/>
+            </xsl:attribute>
+            mqqt
+        </xsl:element>
+        <xsl:element name="polyline">
+            <xsl:attribute name="points">
+            </xsl:attribute>
+            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
+            </xsl:attribute>
+        </xsl:element>
+    </xsl:template>
 </xsl:stylesheet>
