@@ -1,7 +1,7 @@
 #Silverspoon Camel Routes Visualizator
 
-Current status:  
-[![Build Status](https://travis-ci.org/maroselo/visualizator.png?branch=master)](https://travis-ci.org/maroselo/visualizator)
+Current Status
+[![Build Status](https://travis-ci.org/maroselo/visualizator.svg?branch=master)](https://travis-ci.org/maroselo/visualizator)
 
 current status: [13-06-2015] fixing minor bugs in transformations (backend + documentation done)
 
