@@ -61,9 +61,9 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>2.5</version>
                         <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
                             <outputDirectory>webapps</outputDirectory>
                             <warName>ROOT</warName>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
                         </configuration>
                     </plugin>
                 </plugins>
