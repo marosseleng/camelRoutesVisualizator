@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>visualizator</groupId>
-    <artifactId>visualizator</artifactId>
+    <groupId>visualizator2</groupId>
+    <artifactId>visualizator2</artifactId>
     <version>1.0</version>
-    <name>visualizator</name>
+    <name>visualizator2</name>
     <repositories>
         <repository>
             <id>eap</id>
@@ -44,7 +44,7 @@
         <profile>
             <id>openshift</id>
             <build>
-                <finalName>visualizator</finalName>
+                <finalName>visualizator2</finalName>
                 <plugins>
                     <!-- Java language version -->
                     <plugin>
