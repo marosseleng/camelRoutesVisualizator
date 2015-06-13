@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+    <articleinfo>
+        <title>Work report</title>
+        <author>
+            <firstname>Jaroslav</firstname>
+            <surname>Bončo</surname>
+        </author>
+        <authorinitials>JB</authorinitials>
+    </articleinfo>
+    <section id="report">
+        <title>Work Report</title>
+        <simpara>
+            In this project I developed web page by using HTML, CSS and JS. I wrote also XML schema for
+            validation of XMLs in this project.
+        </simpara>
+
+        <simpara>
+            I learned many new things, like working with fonts, animations, buttons, adding editor to web,
+            using github and what I found as the most valuable experience, working in a team.
+        </simpara>
+    </section>
+</article>

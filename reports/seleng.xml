@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+    <articleinfo>
+        <title>Work report</title>
+        <author>
+            <firstname>Maroš</firstname>
+            <surname>Šeleng</surname>
+        </author>
+        <authorinitials>MŠ</authorinitials>
+    </articleinfo>
+    <section id="report">
+        <title>Work Report</title>
+        <simpara>
+            My work as a team leader was to split job between all the team members. Before it, we discuss, what
+            everybody is able to do, or what he is able to learn to do.
+        </simpara>
+
+        <simpara>
+            As a team leader I was also responsible for creating and managing the project's repository on github and
+            giving advices about using git. Later I decided to find some free hosting, which supports Tomcat server, so
+            our application can run in the cloud. I found out that "Openshift" by Red Hat is exactly what we need. After
+            finishing all the Java stuff, I spent a lot of time trying to find out how does the Openshift work and how
+            to deploy an application to it as well.
+        </simpara>
+
+        <simpara>
+            As I have already mentioned, I was responsible for Java backend of an application. This was not for the
+            first time, I was writing such a servlet, but i have never been handling inputs from editor, before, what
+            has shown up as very easy job.
+        </simpara>
+
+        <simpara>
+            Last thing, I have participated in, was creating svg files for Raspberry Pi, as well as editing it to create
+            common board.
+        </simpara>
+    </section>
+</article>
