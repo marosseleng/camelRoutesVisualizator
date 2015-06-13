@@ -1,5 +1,7 @@
 #Silverspoon Camel Routes Visualizator
 
+current status: [13-06-2015] fixing minor bugs in transformations (backend + documentation done)
+
 School project for seminar **#PB138(Modern markup languages)** at Masaryk University, Brno, Czech Republic
 
 ##Table of contents
