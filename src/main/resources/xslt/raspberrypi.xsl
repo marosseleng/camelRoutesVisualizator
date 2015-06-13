@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns="http://www.w3.org/1999/xhtml">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/2000/svg" version="1.0">
     <xsl:output method="xml"
                 doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
                 doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
@@ -9,6 +8,9 @@
                 indent="yes"/>
     <xsl:variable name="piSVG" select="document('../boards/raspberryPi_board.svg')"/>
     <xsl:variable name="ethernetRect" select="$piSVG//*[@id='ethernet']"/>
+    <xsl:variable name="pinNumber" select="substring(//from/@uri,10,2)"/>
+    <xsl:variable name="pinNumberFinal" select="translate($pinNumber,'?','')"/>
+    <xsl:variable name="outPin" select="$piSVG//*[@id=$pinNumberFinal]"/>
 
     <xsl:template match="/">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -41,6 +43,7 @@
                     fill="oldlace" id="e9_circle"/>
             <circle cx="380" cy="23" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" r="9"
                     fill="oldlace" id="e10_circle"/>
+            <rect x="45" y="80" stroke="black" fill="#1C1C1C" width="350" height="200"/>
 
             <!--PIN BACKGROUND-->
             <rect x="270" y="4" id="e11_rectangle" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
@@ -87,85 +90,85 @@
 
             <!--PINS-->
             <rect x="50" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin01"/>
+                  height="4" fill="darkgoldenrod" id="1"/>
             <rect x="50" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin02"/>
+                  height="4" fill="darkgoldenrod" id="2"/>
             <rect x="65" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin03"/>
+                  height="4" fill="darkgoldenrod" id="3"/>
             <rect x="65" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin04"/>
+                  height="4" fill="darkgoldenrod" id="4"/>
             <rect x="80" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin06"/>
+                  height="4" fill="darkgoldenrod" id="6"/>
             <rect x="80" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin05"/>
+                  height="4" fill="darkgoldenrod" id="5"/>
             <rect x="95" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin07"/>
+                  height="4" fill="darkgoldenrod" id="7"/>
             <rect x="95" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin08"/>
+                  height="4" fill="darkgoldenrod" id="8"/>
             <rect x="110" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin09"/>
+                  height="4" fill="darkgoldenrod" id="9"/>
             <rect x="110" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin10"/>
+                  height="4" fill="darkgoldenrod" id="10"/>
             <rect x="125" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin11"/>
+                  height="4" fill="darkgoldenrod" id="11"/>
             <rect x="125" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin12"/>
+                  height="4" fill="darkgoldenrod" id="12"/>
             <rect x="140" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin13"/>
+                  height="4" fill="darkgoldenrod" id="13"/>
             <rect x="140" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin14"/>
+                  height="4" fill="darkgoldenrod" id="14"/>
             <rect x="155" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin15"/>
+                  height="4" fill="darkgoldenrod" id="15"/>
             <rect x="155" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin16"/>
+                  height="4" fill="darkgoldenrod" id="16"/>
             <rect x="170" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin18"/>
+                  height="4" fill="darkgoldenrod" id="18"/>
             <rect x="170" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin17"/>
+                  height="4" fill="darkgoldenrod" id="17"/>
             <rect x="185" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin19"/>
+                  height="4" fill="darkgoldenrod" id="19"/>
             <rect x="185" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin20"/>
+                  height="4" fill="darkgoldenrod" id="20"/>
             <rect x="200" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin21"/>
+                  height="4" fill="darkgoldenrod" id="21"/>
             <rect x="200" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin22"/>
+                  height="4" fill="darkgoldenrod" id="22"/>
             <rect x="215" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin23"/>
+                  height="4" fill="darkgoldenrod" id="23"/>
             <rect x="215" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin24"/>
+                  height="4" fill="darkgoldenrod" id="24"/>
             <rect x="230" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin25"/>
+                  height="4" fill="darkgoldenrod" id="25"/>
             <rect x="230" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin26"/>
+                  height="4" fill="darkgoldenrod" id="26"/>
             <rect x="245" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin27"/>
+                  height="4" fill="darkgoldenrod" id="27"/>
             <rect x="245" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin28"/>
+                  height="4" fill="darkgoldenrod" id="28"/>
             <rect x="260" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin29"/>
+                  height="4" fill="darkgoldenrod" id="29"/>
             <rect x="260" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin30"/>
+                  height="4" fill="darkgoldenrod" id="30"/>
             <rect x="275" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin31"/>
+                  height="4" fill="darkgoldenrod" id="31"/>
             <rect x="275" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin32"/>
+                  height="4" fill="darkgoldenrod" id="32"/>
             <rect x="290" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin33"/>
+                  height="4" fill="darkgoldenrod" id="33"/>
             <rect x="290" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin34"/>
+                  height="4" fill="darkgoldenrod" id="34"/>
             <rect x="305" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin35"/>
+                  height="4" fill="darkgoldenrod" id="35"/>
             <rect x="305" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin36"/>
+                  height="4" fill="darkgoldenrod" id="36"/>
             <rect x="320" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin37"/>
+                  height="4" fill="darkgoldenrod" id="37"/>
             <rect x="320" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin38"/>
+                  height="4" fill="darkgoldenrod" id="38"/>
             <rect x="335" y="30" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin39"/>
+                  height="4" fill="darkgoldenrod" id="39"/>
             <rect x="335" y="10" stroke="black" style="stroke-width: 1px; vector-effect: non-scaling-stroke;" width="4"
-                  height="4" fill="darkgoldenrod" id="pin40"/>
+                  height="4" fill="darkgoldenrod" id="40"/>
 
             <!--PORTS-->
             <rect x="510" y="30" stroke="silver" style="stroke-width: 1px; vector-effect: non-scaling-stroke;"
@@ -204,11 +207,11 @@
                   height="25" fill="black" id="e8_rectangle"/>
 
             <!--TEXTS-->
-            <text fill="black" x="536.981" y="82.9283" id="e1_texte" style="font-family: monospace; font-size: 16px;"
-                  transform="">USB01
+            <text fill="black" x="536.981" y="82.9283" id="e1_texte" style="font-family: monospace; font-size: 16px;">
+                USB01
             </text>
-            <text fill="black" x="535.98" y="208.978" id="e2_texte" style="font-family: monospace; font-size: 16px;"
-                  transform="">USB02
+            <text fill="black" x="535.98" y="208.978" id="e2_texte" style="font-family: monospace; font-size: 16px;">
+                USB02
             </text>
             <text fill="black" x="473.956" y="325.023" id="e3_texte" style="font-family: monospace; font-size: 16px;">
                 Ethernet
@@ -216,25 +219,46 @@
             <text fill="white" x="285.882" y="255.996" id="e4_texte" style="font-family: monospace; font-size: 16px;"
                   transform="matrix(-0.00123645 -1 1 -0.00123645 85.7669 664.711)">Audio
             </text>
-            <text fill="black" x="179.84" y="347.032" id="e5_texte" style="font-family: monospace; font-size: 16px;"
-                  transform="">HDMI
+            <text fill="black" x="179.84" y="347.032" id="e5_texte" style="font-family: monospace; font-size: 16px;">
+                HDMI
             </text>
             <text fill="black" x="33.1743" y="379.43" id="e6_texte" style="font-family: monospace; font-size: 16px;"
                   transform="matrix(0.0184957 -1 1 0.0184957 -278.099 421.771)">Power
             </text>
 
-            <xsl:element name="line">
-                <xsl:attribute name="x1">0</xsl:attribute>
-                <xsl:attribute name="x2">
-                    <xsl:value-of select="$ethernetRect//@x"/>
-                </xsl:attribute>
-                <xsl:attribute name="y1">0</xsl:attribute>
-                <xsl:attribute name="y2">
-                    <xsl:value-of select="$ethernetRect//@y"/>
-                </xsl:attribute>
-                <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-            </xsl:element>
+            <xsl:apply-templates mode="routeTemplate" select="//route"/>
         </svg>
+    </xsl:template>
+
+    <xsl:template match="//from" mode="routeTemplate">
+        <xsl:element name="rect">
+            <xsl:attribute name="x">45</xsl:attribute>
+            <xsl:attribute name="y">154</xsl:attribute>
+            <xsl:attribute name="width">80</xsl:attribute>
+            <xsl:attribute name="height">45</xsl:attribute>
+            <xsl:attribute name="stroke">black</xsl:attribute>
+            <xsl:attribute name="fill">white</xsl:attribute>
+            <xsl:attribute name="id">fromRect</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="text">
+            <xsl:attribute name="fill">black</xsl:attribute>
+            <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
+            <xsl:attribute name="x">64</xsl:attribute>
+            <xsl:attribute name="y">180</xsl:attribute>
+            gpio
+        </xsl:element>
+        <xsl:variable name="xcorHalf" select="($outPin/@x - 58) div 2"/>
+        <xsl:variable name="ycorHalf" select="(154-$outPin/@y) div 2"/>
+        <xsl:element name="polyline">
+            <xsl:attribute name="points"><xsl:value-of select="$outPin/@x + 2"/>,<xsl:value-of
+                    select="$outPin/@y + 2"/><xsl:text> </xsl:text><xsl:value-of select="$outPin/@x + 2"/>,<xsl:value-of
+                    select="round($ycorHalf)"/> 85,<xsl:value-of
+                    select="round($ycorHalf)"/> 85,154
+            </xsl:attribute>
+            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
+            </xsl:attribute>
+        </xsl:element>
+
     </xsl:template>
 
 

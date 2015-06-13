@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <bean id="webCamBean" class="org.jboss.qa.camel.WebCamBean">
+        <property name="picturesDirectory" value="/var/www/pictures"/>
+        <property name="outName" value="picture"/>
+        <property name="baseUrl" value="http://cubieboard/pictures"/>
+    </bean>
+    <camelContext trace="false">
+        <route customId="true" id="iot-door-bell-route">
+            <from uri="gpio://ph2?value=HIGH"/>
+            <to uri="bean:webCamBean?method=getPicture"/>
+            <to uri="mqtt://iot-demo?host=tcp://localhost:1883&amp;publishTopicName=IotDemo"/>
+        </route>
+    </camelContext>
+</beans>
