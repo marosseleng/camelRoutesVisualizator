@@ -37,6 +37,8 @@ As this is a maven project, you should be able to open it in every maven-support
 
 More pleasant way to use the application you can find in project's [wiki] (https://github.com/maroselo/visualizator/wiki).
 
+After all these steps, please proceed to [Instructions] (https://github.com/maroselo/visualizator/wiki/Instructions).
+
 ##Documentation
 
 The documentation to sources can be found in directory `documentation`.
