@@ -6,7 +6,6 @@ School project for seminar **#PB138(Modern markup languages)** at Masaryk Univer
 - [Summary](#summary)
 - [Installation] (#installation)
 - [Documentation] (#documentation)
-- [Issues] (#issues)
 - [Team] (#team)
 
 ##Summary
@@ -51,6 +50,8 @@ Read the detailed documentation, with the description of every single thing in a
 - [Jaroslav Bončo] (https://github.com/jarkojefamozny) *developer*
 - [Jan Grundmann] (https://github.com/jangrundmann) *developer*
 - [Adam Vondráček] (https://github.com/Adam144) *developer*
+
+***
 - [Filip Nguyen] (https://github.com/nguyenfilip) *developer*
 - [Tomáš Pitner] (https://github.com/tpitner) *developer*
 - [Luděk Bártek] (https://github.com/ludekbartek) *developer*
