@@ -84,7 +84,7 @@ public class XMLToolkit {
             documentBuilder.setErrorHandler(new ValidationErrorsHandler());
 
             documentBuilder.parse(new File(routeFile));
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
+        } catch (SAXException | ParserConfigurationException | IOException ex) {
             return false;
         }
 

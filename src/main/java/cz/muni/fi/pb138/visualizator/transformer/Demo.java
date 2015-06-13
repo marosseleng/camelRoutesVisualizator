@@ -15,7 +15,7 @@ public class Demo {
         try {
             if (TOOLKIT.validateRoute("src/main/resources/routes/test01.xml")) {
                 System.out.println("valid");
-                TOOLKIT.transformRoute("src/main/resources/routes/test01.xml", "src/main/resources/out/output.svg", BoardType.RASPBERRY_PI);
+                TOOLKIT.transformRoute("src/main/resources/routes/test_cubieBoard2.xml", "src/main/resources/out/output.svg", BoardType.CUBIEBOARD);
             } else {
                 throw new AssertionError("This should never occur.");
             }
