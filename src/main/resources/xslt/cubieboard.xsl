@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns:spring="http://camel.apache.org/schema/spring"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:fn="http://www.w3.org/2005/xpath-functions">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/2000/svg" version="1.0">
+              
     <xsl:output method="xml"
                 doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
                 doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
@@ -191,21 +189,21 @@
             <xsl:apply-templates/>            
         </svg>        
     </xsl:template>
-    <xsl:template match="spring:camelContext">     
-        <xsl:apply-templates select="spring:route"/>
+    <xsl:template match="camelContext">     
+        <xsl:apply-templates select="route"/>
     </xsl:template>
-    <xsl:template match="spring:route">
+    <xsl:template match="route">
         <xsl:param name="iters"/>        
-        <xsl:apply-templates select="spring:from">
+        <xsl:apply-templates select="from">
             <xsl:with-param name="iters" select="0"/>
         </xsl:apply-templates>
-        <xsl:for-each select="spring:to">
+        <xsl:for-each select="to">
             <xsl:call-template name="to">
                 <xsl:with-param name="iters" select="position()"/>
             </xsl:call-template>
         </xsl:for-each>          
     </xsl:template>
-    <xsl:template match="spring:from">
+    <xsl:template match="from">
         <xsl:param name="iters"/>
         <xsl:variable name="from_uri" select="string(./@uri)"/>
         <xsl:variable name="pin" select="substring-after(substring-before($from_uri,'?'),'//')"/>
@@ -234,23 +232,25 @@
         <xsl:choose>
             <xsl:when test="contains($pin,'P1')">
                 <xsl:variable name="pinno" select="substring-after($pin,'_')"/>
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">                    
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx"/>
+                <xsl:variable name="pinx" select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx"/>
+                <xsl:variable name="piny" select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cy"/>
+                <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                    <xsl:attribute name="points">
+                        <xsl:value-of select="$pinx"/>,<xsl:value-of select="$piny+5"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="$pinx"/>,<xsl:value-of select="round((140+$piny) div 2)"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="180"/>,<xsl:value-of select="round((140+$piny) div 2)"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="180"/>,<xsl:value-of select="140"/>
                     </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="180"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y1">
-                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cy"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="140"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                    <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                    <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
                 </xsl:element>
                 <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
-                    <xsl:attribute name="x"><xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx"/></xsl:attribute>
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin',$pinno)]/@cx+3"/>
+                    </xsl:attribute>
                     <xsl:attribute name="y">52</xsl:attribute>  
                     <xsl:attribute name="style">font-family: serif; font-size: 13px;</xsl:attribute>            
                     <xsl:attribute name="fill">white</xsl:attribute>
@@ -259,23 +259,49 @@
             </xsl:when>
             <xsl:when test="contains($pin,'P2')">
                 <xsl:variable name="pinno" select="substring-after($pin,'_')"/>
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">                    
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="180"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y1">
-                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cy"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="180"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-                </xsl:element>
+                <xsl:variable name="pinx" select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx"/>
+                <xsl:variable name="piny" select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cy"/>
+                <xsl:choose>
+                    <xsl:when test="$pinx&gt;500">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$pinx"/>,<xsl:value-of select="($piny)-5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$pinx"/>,<xsl:value-of select="340"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(180+$pinx)div 2"/>,<xsl:value-of select="340"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(180+$pinx)div 2"/>,<xsl:value-of select="round((180+$piny) div 2)"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="180"/>,<xsl:value-of select="round((180+$piny) div 2)"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="180"/>,<xsl:value-of select="180"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$pinx"/>,<xsl:value-of select="($piny)-5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$pinx"/>,<xsl:value-of select="round((180+$piny) div 2)"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="180"/>,<xsl:value-of select="round((180+$piny) div 2)"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="180"/>,<xsl:value-of select="180"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:otherwise>
+                </xsl:choose>           
+                
                 <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
-                    <xsl:attribute name="x"><xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx"/></xsl:attribute>
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$cubieSVG//*[@id=concat('pin1',$pinno)]/@cx+3"/>
+                    </xsl:attribute>
                     <xsl:attribute name="y">350</xsl:attribute>  
                     <xsl:attribute name="style">font-family: serif; font-size: 13px;</xsl:attribute>            
                     <xsl:attribute name="fill">white</xsl:attribute>
@@ -284,119 +310,267 @@
             </xsl:when>           
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="spring:to" name="to">
+    <xsl:template match="to" name="to">
         <xsl:param name="iters"/>
         <xsl:variable name="to_uri" select="string(./@uri)"/>
-        <xsl:element name="rect" namespace="http://www.w3.org/2000/svg">
-            <xsl:attribute name="x">
-                <xsl:value-of select="$iters*80+150"/>
-            </xsl:attribute>
-            <xsl:attribute name="y">140</xsl:attribute>
-            <xsl:attribute name="stroke">white</xsl:attribute>
-            <xsl:attribute name="id">
-                <xsl:value-of select="$iters"/>
-            </xsl:attribute>
-            <xsl:attribute name="style">stroke-width: 1px; vector-effect: non-scaling-stroke;</xsl:attribute>
-            <xsl:attribute name="height">40</xsl:attribute>
-            <xsl:attribute name="width">60</xsl:attribute>
-            <xsl:attribute name="fill">white</xsl:attribute>
-        </xsl:element>        
-        <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
-            <xsl:attribute name="x">
-                <xsl:value-of select="$iters*80+155"/>
-            </xsl:attribute>
-            <xsl:attribute name="y">165</xsl:attribute>  
-            <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
-            <xsl:attribute name="fill">black</xsl:attribute>
-            <xsl:value-of select="substring-before($to_uri,':')"/>             
-        </xsl:element> 
-        <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
-            <xsl:attribute name="x1">
-                <xsl:value-of select="$iters*80+130"/>
-            </xsl:attribute>
-            <xsl:attribute name="x2">
-                <xsl:value-of select="$iters*80+150"/>
-            </xsl:attribute>
-            <xsl:attribute name="y1">160</xsl:attribute>
-            <xsl:attribute name="y2">160</xsl:attribute>
-            <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-        </xsl:element>
         <xsl:choose>
-            <xsl:when test="contains($to_uri,'localhost')">
+            <xsl:when test="$iters&lt;4">
+                <xsl:element name="rect" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$iters*80+150"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y">140</xsl:attribute>
+                    <xsl:attribute name="stroke">white</xsl:attribute>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="$iters"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="style">stroke-width: 1px; vector-effect: non-scaling-stroke;</xsl:attribute>
+                    <xsl:attribute name="height">40</xsl:attribute>
+                    <xsl:attribute name="width">60</xsl:attribute>
+                    <xsl:attribute name="fill">white</xsl:attribute>
+                </xsl:element>        
+                <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$iters*80+155"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="y">165</xsl:attribute>  
+                    <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+                    <xsl:attribute name="fill">black</xsl:attribute>
+                    <xsl:value-of select="substring-before($to_uri,':')"/>             
+                </xsl:element> 
                 <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
                     <xsl:attribute name="x1">
-                        <xsl:value-of select="$iters*80+210"/>
+                        <xsl:value-of select="$iters*80+130"/>
                     </xsl:attribute>
                     <xsl:attribute name="x2">
-                        <xsl:value-of select="$ethernetRect/@x"/>
+                        <xsl:value-of select="$iters*80+150"/>
                     </xsl:attribute>
                     <xsl:attribute name="y1">160</xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
-                    </xsl:attribute>
+                    <xsl:attribute name="y2">160</xsl:attribute>
                     <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
                 </xsl:element>
+                <xsl:choose>
+                    <xsl:when test="contains($to_uri,'localhost')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+210"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$ethernetRect/@x)div 2"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$ethernetRect/@x)div 2"/>,<xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$ethernetRect/@x"/>,<xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'miniUSB')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+210"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$miniUSBRect/@x)div 2"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$miniUSBRect/@x)div 2"/>,<xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$miniUSBRect/@x"/>,<xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'audio')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+210"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$audioRect/@x)div 2"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iters*80+210)+$audioRect/@x)div 2"/>,<xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$audioRect/@x"/>,<xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when> 
+                    <xsl:when test="contains($to_uri,'USB1')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+210"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+250"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+250"/>,<xsl:value-of select="($USBRect/@y+160)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="($USBRect/@y+160)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="$USBRect/@y"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'USB2')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+210"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+250"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+250"/>,<xsl:value-of select="($USBRect/@y+160)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="($USBRect/@y+160)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="$USBRect/@y"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when> 
+                </xsl:choose>
             </xsl:when>
-            <xsl:when test="contains($to_uri,'miniUSB')">
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$iters*80+210"/>
+            <xsl:otherwise>
+                <xsl:param name="iter" select="($iters)-3"/>
+                <xsl:element name="rect" namespace="http://www.w3.org/2000/svg">
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$iter*80+150"/>
                     </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="$miniUSBRect/@x"/>
+                    <xsl:attribute name="y">200</xsl:attribute>
+                    <xsl:attribute name="stroke">white</xsl:attribute>
+                    <xsl:attribute name="id">
+                        <xsl:value-of select="$iters"/>
                     </xsl:attribute>
-                    <xsl:attribute name="y1">160</xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                    <xsl:attribute name="style">stroke-width: 1px; vector-effect: non-scaling-stroke;</xsl:attribute>
+                    <xsl:attribute name="height">40</xsl:attribute>
+                    <xsl:attribute name="width">60</xsl:attribute>
+                    <xsl:attribute name="fill">white</xsl:attribute>
+                </xsl:element>        
+                <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
+                    <xsl:attribute name="x">
+                        <xsl:value-of select="$iter*80+155"/>
                     </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                    <xsl:attribute name="y">225</xsl:attribute>  
+                    <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+                    <xsl:attribute name="fill">black</xsl:attribute>
+                    <xsl:value-of select="substring-before($to_uri,':')"/>             
                 </xsl:element>
-            </xsl:when>
-            <xsl:when test="contains($to_uri,'audio')">
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$iters*80+210"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="$audioRect/@x"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y1">160</xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-                </xsl:element>
-            </xsl:when> 
-            <xsl:when test="contains($to_uri,'USB1')">
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$iters*80+210"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y1">160</xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="$USBRect/@y"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-                </xsl:element>
-            </xsl:when>
-            <xsl:when test="contains($to_uri,'USB2')">
-                <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
-                    <xsl:attribute name="x1">
-                        <xsl:value-of select="$iters*80+210"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="x2">
-                        <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="y1">160</xsl:attribute>
-                    <xsl:attribute name="y2">
-                        <xsl:value-of select="$USBRect/@y"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
-                </xsl:element>
-            </xsl:when> 
+                <xsl:choose>
+                    <xsl:when test="$iters=4">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iters*80+130"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+170"/>,<xsl:value-of select="160"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iters*80+170"/>,<xsl:value-of select="190"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+130"/>,<xsl:value-of select="190"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+130"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+150"/>,<xsl:value-of select="220"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:element name="line" namespace="http://www.w3.org/2000/svg">
+                            <xsl:attribute name="x1">
+                                <xsl:value-of select="$iter*80+130"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="x2">
+                                <xsl:value-of select="$iter*80+150"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="y1">220</xsl:attribute>
+                            <xsl:attribute name="y2">220</xsl:attribute>
+                            <xsl:attribute name="style">stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                        </xsl:element>
+                    </xsl:otherwise>
+                </xsl:choose>                
+                <xsl:choose>
+                    <xsl:when test="contains($to_uri,'localhost')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iter*80+210"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$ethernetRect/@x)div 2"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$ethernetRect/@x)div 2"/>,<xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$ethernetRect/@x"/>,<xsl:value-of select="$ethernetRect/@y+$ethernetRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'miniUSB')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iter*80+210"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$miniUSBRect/@x)div 2"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$miniUSBRect/@x)div 2"/>,<xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$miniUSBRect/@x"/>,<xsl:value-of select="$miniUSBRect/@y+$miniUSBRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'audio')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iter*80+210"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$audioRect/@x)div 2"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="(($iter*80+210)+$audioRect/@x)div 2"/>,<xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$audioRect/@x"/>,<xsl:value-of select="$audioRect/@y+$audioRect/@height*0.5"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when> 
+                    <xsl:when test="contains($to_uri,'USB1')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iter*80+210"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+250"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+250"/>,<xsl:value-of select="($USBRect/@y+220)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="($USBRect/@y+220)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="$USBRect/@y"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when>
+                    <xsl:when test="contains($to_uri,'USB2')">
+                        <xsl:element name="polyline" namespace="http://www.w3.org/2000/svg">                    
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="$iter*80+210"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+250"/>,<xsl:value-of select="220"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$iter*80+250"/>,<xsl:value-of select="($USBRect/@y+220)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="($USBRect/@y+220)div 2"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="$USBRect/@x+$USBRect/@width*0.5"/>,<xsl:value-of select="$USBRect/@y"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:2;marker-end:url(#end-marker);</xsl:attribute>
+                            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
+                        </xsl:element>
+                    </xsl:when> 
+                </xsl:choose>
+            </xsl:otherwise> 
         </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>
