@@ -10,7 +10,7 @@
     
  <xsl:template match="/">
  <!-- Board -->
- <svg xmlns="http://www.w3.org/2000/svg">
+ <svg xmlns="http://www.w3.org/2000/svg"  width="100%" height="100%">
 <!-- main board -->
 <rect x="0" y="0" rx="70" ry="70" width="750" height="410" style="fill:black;stroke:grey;stroke-width:5;" />
 <circle cx="160" cy="30" r="20" stroke="orange" stroke-width="3" fill="white" />
