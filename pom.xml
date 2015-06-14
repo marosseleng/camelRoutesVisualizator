@@ -7,7 +7,9 @@
     <groupId>visualizator</groupId>
     <artifactId>visualizator</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
     <name>visualizator</name>
+
     <repositories>
         <repository>
             <id>eap</id>
@@ -20,6 +22,7 @@
             </snapshots>
         </repository>
     </repositories>
+
     <pluginRepositories>
         <pluginRepository>
             <id>eap</id>
@@ -32,44 +35,36 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
 
-
-    <packaging>war</packaging>
-    <profiles>
-        <profile>
-            <id>openshift</id>
-            <build>
-                <finalName>visualizator</finalName>
-                <plugins>
-                    <!-- Java language version -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <source>7</source>
-                            <target>7</target>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <outputDirectory>webapps</outputDirectory>
-                            <warName>ROOT</warName>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <build>
+        <finalName>visualizator</finalName>
+        <plugins>
+            <!-- Java language version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>webapps</outputDirectory>
+                    <warName>ROOT</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -94,7 +89,12 @@
             <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+        </profile>
+    </profiles>
 
 </project>

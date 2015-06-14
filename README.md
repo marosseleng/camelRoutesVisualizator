@@ -1,20 +1,22 @@
 #Silverspoon Camel Routes Visualizator
 
+Current Status
+[![Build Status](https://travis-ci.org/maroselo/visualizator.svg?branch=master)](https://travis-ci.org/maroselo/visualizator)
+
+current status: [13-06-2015] fixing minor bugs in transformations (backend + documentation done)
+
 School project for seminar **#PB138(Modern markup languages)** at Masaryk University, Brno, Czech Republic
 
 ##Table of contents
 - [Summary](#summary)
-- [Usage] (#usage)
-  - [IntelliJ IDEA] (#idea)
-  - [NetBeans] (#netbeans)
+- [Installation] (#installation)
 - [Documentation] (#documentation)
-- [Issues] (#issues)
 - [Team] (#team)
 
 ##Summary
 
 Our task in this project is to develop a web application, which uses the Extensible Stylesheet Language Transformation (XSLT) to transform [Apache Camel Routes] (http://camel.apache.org/routes.html), written in an `.xml` file, into a `.svg` picture.
-Eventually, the produced picture will be shown on webpage.
+Eventually, the produced picture will be shown on a webpage.
 
 This transformation should cover the needs of the [Silverspoon.io project] (https://silverspoon.io).
 
@@ -26,28 +28,26 @@ Obecné prvky zadání dané vizualizace jsou dostupné na tomto odkazu:
 https://docs.google.com/document/d/1VYe_K9NvOXHtS-R-9H3xywKGm6uvraHk8RWuXHH7qSQ/pub
 ```
 
-##Usage
+##Installation
 
 As this is a maven project, you should be able to open it in every maven-supporting IDE. But we recommend IntelliJ IDEA Ultimate and Netbeans with JAVA EE bundle.
 
 1. First of all you need to download the zip with the sources. To do this, just press the `Download ZIP` button on the right side.
-2. As this is a web application, you will need a server to run it on. We recommend you to download and use the [Apache Tomcat] (https://tomcat.apache.org/download-80.cgi).
-3. Now it's time to extract downloaded files. When extracting Apache Tomcat, remember, that it is usefull to extract it into folder, that you have write permission on.
+2. As this is a web application, you will need the [Apache Tomcat] (https://tomcat.apache.org/download-80.cgi).
+3. Now it's time to extract downloaded files. Don't forget locations of extracted files.
+4. Open your favorite IDE and open the project by opening `.pom` file.
+5. Configure the tomcat server, especially the `CATALINA_BASE` location.
+6. Build and run the project.
 
-####IDEA
-1. Open the IntelliJ IDEA.
-2. Click on File-->Open.
-3. In dialog shown, go to folder, where the project is unpacked, and choose the file `pom.xml` from project folder.
+More pleasant way to use the application you can find in project's [wiki] (https://github.com/maroselo/visualizator/wiki).
 
-####Netbeans
-1. Open the Netbeans IDE.
-2. Click on File-->Open project, or press `Ctrl+Shift+O`.
-3. In dialog shown, go to folder, where the project is unpacked, and you should see project folder with little maven icon.
-4. Click on folder and press the `Open Project` button.
+After all these steps, please proceed to [Instructions] (https://github.com/maroselo/visualizator/wiki/How-to-use-it).
 
 ##Documentation
 
-Read the full documentation on our [wiki pages] (https://github.com/maroselo/visualizator/wiki).
+The documentation to sources can be found in directory `documentation`.
+
+Read the detailed documentation, with the description of every single thing in application and pictures, as well, on our [wiki pages] (https://github.com/maroselo/visualizator/wiki).
 
 ##Team
 
@@ -55,6 +55,8 @@ Read the full documentation on our [wiki pages] (https://github.com/maroselo/vis
 - [Jaroslav Bončo] (https://github.com/jarkojefamozny) *developer*
 - [Jan Grundmann] (https://github.com/jangrundmann) *developer*
 - [Adam Vondráček] (https://github.com/Adam144) *developer*
+
+***
 - [Filip Nguyen] (https://github.com/nguyenfilip) *developer*
 - [Tomáš Pitner] (https://github.com/tpitner) *developer*
 - [Luděk Bártek] (https://github.com/ludekbartek) *developer*
