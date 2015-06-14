@@ -8,9 +8,9 @@
                 indent="yes"/>
     <xsl:variable name="beanWidth">60</xsl:variable>
     <xsl:variable name="beanHeight">45</xsl:variable>
-    <xsl:variable name="beansX">45</xsl:variable>
+    <xsl:variable name="beansX">10</xsl:variable>
     <xsl:variable name="beansY">80</xsl:variable>
-    <xsl:variable name="beansWidth">350</xsl:variable>
+    <xsl:variable name="beansWidth">400</xsl:variable>
     <xsl:variable name="beansHeight">200</xsl:variable>
     <xsl:variable name="innerSpace" select="30"/>
     <xsl:variable name="availableSpace" select="$beansWidth - 10 - (2 * $beanWidth) - (2 * $innerSpace)"/>
@@ -31,7 +31,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
 
             <defs>
-                <marker id="end-marker" markerHeight="12" markerUnits="strokeWidth" markerWidth="15" orient="auto"
+                <marker id="end-marker" markerHeight="8" markerUnits="strokeWidth" markerWidth="10" orient="auto"
                         refX="-3" refY="0" viewBox="-15 -5 20 20">
                     <path d="M -15 -5 L 0 0 L -15 5 z" fill="white"/>
                 </marker>
@@ -258,7 +258,7 @@
 
             <xsl:call-template name="fromTemplate"/>
             <xsl:call-template name="mqqtTemplate"/>
-            <xsl:for-each select="//to[starts-with(@uri,'bean')]">
+            <xsl:for-each select="//to[not(contains(@uri,'//'))]">
                 <xsl:call-template name="beanTemplate">
                     <xsl:with-param name="relativeX" select="position()"/>
                 </xsl:call-template>
@@ -358,7 +358,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="//to" name="beanTemplate">
+    <xsl:template match="//to[not(contains(@uri,'//'))]" name="beanTemplate">
         <xsl:param name="relativeX"/>
         <xsl:variable name="relativePositionX"
                       select="(($relativeX - 1) * $innerBeanWidth) + (($relativeX - 1) * $innerSpace)"/>
@@ -378,5 +378,58 @@
             <xsl:attribute name="fill">darkgrey</xsl:attribute>
             <xsl:attribute name="stroke">white</xsl:attribute>
         </xsl:element>
+
+        <xsl:element name="text">
+            <xsl:attribute name="fill">black</xsl:attribute>
+            <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
+            <xsl:attribute name="x">
+                <xsl:value-of select="$beanStartX + $relativePositionX"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop + (($beanHeight * 2) div 3)"/>
+            </xsl:attribute>
+            <xsl:value-of select="substring(substring-before(@uri,':'),1,floor($innerBeanWidth div 10))"/>
+        </xsl:element>
+
+        <xsl:element name="line">
+            <xsl:attribute name="x1">
+                <xsl:value-of select="$beanStartX + $relativePositionX - $innerSpace"/>
+            </xsl:attribute>
+            <xsl:attribute name="y1">
+                <xsl:value-of
+                        select="$beanTop + round($beanHeight div 2)"/>
+            </xsl:attribute>
+            <xsl:attribute name="x2">
+                <xsl:value-of select="$beanStartX + $relativePositionX"/>
+            </xsl:attribute>
+            <xsl:attribute name="y2">
+                <xsl:value-of
+                        select="$beanTop + round($beanHeight div 2)"/>
+            </xsl:attribute>
+            <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
+            </xsl:attribute>
+        </xsl:element>
+
+        <xsl:if test="$relativeX = $beansCount">
+            <xsl:element name="line">
+                <xsl:attribute name="x1">
+                    <xsl:value-of select="$beanStartX + $relativePositionX + $innerBeanWidth"/>
+                </xsl:attribute>
+                <xsl:attribute name="y1">
+                    <xsl:value-of
+                            select="$beanTop + round($beanHeight div 2)"/>
+                </xsl:attribute>
+                <xsl:attribute name="x2">
+                    <xsl:value-of select="$mqqtBeanX"/>
+                </xsl:attribute>
+                <xsl:attribute name="y2">
+                    <xsl:value-of
+                            select="$beanTop + round($beanHeight div 2)"/>
+                </xsl:attribute>
+                <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
+                </xsl:attribute>
+            </xsl:element>
+        </xsl:if>
+
     </xsl:template>
 </xsl:stylesheet>
