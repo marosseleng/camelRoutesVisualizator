@@ -295,7 +295,7 @@
             </xsl:attribute>
             gpio
         </xsl:element>
-        <xsl:variable name="ycorHalf" select="(154-$outPin/@y) div 2"/>
+        <xsl:variable name="ycorHalf" select="(154-number($outPin/@y)) div 2"/>
         <xsl:variable name="beanXHalf" select="round($beanWidth div 2) + $beansX"/>
         <xsl:element name="polyline">
             <xsl:attribute name="points"><xsl:value-of select="$outPin/@x + 2"/>,<xsl:value-of
