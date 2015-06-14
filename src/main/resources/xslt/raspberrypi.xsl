@@ -306,6 +306,7 @@
             </xsl:attribute>
             <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
             </xsl:attribute>
+            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
         </xsl:element>
     </xsl:template>
 
@@ -355,6 +356,7 @@
             </xsl:attribute>
             <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
             </xsl:attribute>
+            <xsl:attribute name="stroke-dasharray">10,5</xsl:attribute>
         </xsl:element>
     </xsl:template>
 
@@ -430,6 +432,5 @@
                 </xsl:attribute>
             </xsl:element>
         </xsl:if>
-
     </xsl:template>
 </xsl:stylesheet>
