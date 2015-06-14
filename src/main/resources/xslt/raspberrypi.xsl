@@ -6,19 +6,26 @@
                 doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
                 encoding="UTF-8"
                 indent="yes"/>
-    <xsl:variable name="piSVG" select="document('../boards/raspberryPi_board.svg')"/>
-    <xsl:variable name="ethernetRect" select="$piSVG//*[@id='ethernet']"/>
-    <xsl:variable name="pinNumber" select="substring(//from/@uri,10,2)"/>
-    <xsl:variable name="pinNumberFinal" select="translate($pinNumber,'?','')"/>
-    <xsl:variable name="outPin" select="$piSVG//*[@id=$pinNumberFinal]"/>
-    <xsl:variable name="beanWidth">80</xsl:variable>
+    <xsl:variable name="beanWidth">60</xsl:variable>
     <xsl:variable name="beanHeight">45</xsl:variable>
     <xsl:variable name="beansX">45</xsl:variable>
     <xsl:variable name="beansY">80</xsl:variable>
     <xsl:variable name="beansWidth">350</xsl:variable>
     <xsl:variable name="beansHeight">200</xsl:variable>
+    <xsl:variable name="innerSpace" select="30"/>
+    <xsl:variable name="availableSpace" select="$beansWidth - 10 - (2 * $beanWidth) - (2 * $innerSpace)"/>
+    <xsl:variable name="beanStartX" select="$beansX + 5 + $innerSpace + $beanWidth"/>
+    <xsl:variable name="beansCount" select="count(//to) - 1"/>
+    <xsl:variable name="innerBeanWidth"
+                  select="round(($availableSpace - (($beansCount - 1) * $innerSpace)) div $beansCount)"/>
+    <xsl:variable name="piSVG" select="document('../boards/raspberryPi_board.svg')"/>
+    <xsl:variable name="ethernetRect" select="$piSVG//*[@id='ethernet']"/>
+    <xsl:variable name="pinNumber" select="substring(//from/@uri,10,2)"/>
+    <xsl:variable name="pinNumberFinal" select="translate($pinNumber,'?','')"/>
+    <xsl:variable name="outPin" select="$piSVG//*[@id=$pinNumberFinal]"/>
     <xsl:variable name="beanTop" select="((round($beansHeight div 2)) + $beansY - (round($beanHeight div 2)))"/>
-    <xsl:variable name="mqqtBeanX">310</xsl:variable>
+    <xsl:variable name="mqqtBeanX" select="$beansX + $beansWidth - 5 - $beanWidth"/>
+    <xsl:variable name="ethernetEndpointY" select="$ethernetRect/@y + round($ethernetRect/@height div 2)"/>
 
     <xsl:template match="/">
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -249,12 +256,17 @@
                   transform="matrix(0.0184957 -1 1 0.0184957 -278.099 421.771)">Power
             </text>
 
-            <xsl:apply-templates mode="routeTemplate" select="//route"/>
+            <xsl:call-template name="fromTemplate"/>
             <xsl:call-template name="mqqtTemplate"/>
+            <xsl:for-each select="//to[starts-with(@uri,'bean')]">
+                <xsl:call-template name="beanTemplate">
+                    <xsl:with-param name="relativeX" select="position()"/>
+                </xsl:call-template>
+            </xsl:for-each>
         </svg>
     </xsl:template>
 
-    <xsl:template match="//from" mode="routeTemplate">
+    <xsl:template match="//from" name="fromTemplate">
         <xsl:element name="rect">
             <xsl:attribute name="x">
                 <xsl:value-of select="$beansX + 5"/>
@@ -268,7 +280,7 @@
             <xsl:attribute name="height">
                 <xsl:value-of select="$beanHeight"/>
             </xsl:attribute>
-            <xsl:attribute name="stroke">black</xsl:attribute>
+            <xsl:attribute name="stroke">white</xsl:attribute>
             <xsl:attribute name="fill">white</xsl:attribute>
             <xsl:attribute name="id">fromRect</xsl:attribute>
         </xsl:element>
@@ -276,10 +288,10 @@
             <xsl:attribute name="fill">black</xsl:attribute>
             <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
             <xsl:attribute name="x">
-                <xsl:value-of select="$beansX + 24"/>
+                <xsl:value-of select="$beansX + round($beanWidth div 4)"/>
             </xsl:attribute>
             <xsl:attribute name="y">
-                <xsl:value-of select="$beanTop + 30"/>
+                <xsl:value-of select="$beanTop + (($beanHeight * 2) div 3)"/>
             </xsl:attribute>
             gpio
         </xsl:element>
@@ -296,6 +308,7 @@
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
+
     <xsl:template match="//to[starts-with(@uri,'mqqt')]" name="mqqtTemplate">
         <xsl:element name="rect">
             <xsl:attribute name="x">
@@ -310,26 +323,60 @@
             <xsl:attribute name="height">
                 <xsl:value-of select="$beanHeight"/>
             </xsl:attribute>
-            <xsl:attribute name="stroke">black</xsl:attribute>
+            <xsl:attribute name="stroke">white</xsl:attribute>
             <xsl:attribute name="fill">white</xsl:attribute>
             <xsl:attribute name="id">mqqtRect</xsl:attribute>
         </xsl:element>
+
         <xsl:element name="text">
             <xsl:attribute name="fill">black</xsl:attribute>
             <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
             <xsl:attribute name="x">
-                <xsl:value-of select="$mqqtBeanX + 19"/>
+                <xsl:value-of select="$mqqtBeanX + round($beanWidth div 4)"/>
             </xsl:attribute>
             <xsl:attribute name="y">
-                <xsl:value-of select="$beanTop + 30"/>
+                <xsl:value-of select="$beanTop + (($beanHeight * 2) div 3)"/>
             </xsl:attribute>
             mqqt
         </xsl:element>
+
         <xsl:element name="polyline">
             <xsl:attribute name="points">
+                <xsl:value-of select="$mqqtBeanX + $beanWidth"/>,<xsl:value-of
+                    select="$beanTop + round($beanHeight div 2)"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="$mqqtBeanX + $beanWidth + (($ethernetRect/@x - $mqqtBeanX - $beanWidth) div 2)"/>,<xsl:value-of
+                    select="$beanTop + round($beanHeight div 2)"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="$mqqtBeanX + $beanWidth + (($ethernetRect/@x - $mqqtBeanX - $beanWidth) div 2)"/>,<xsl:value-of
+                    select="$ethernetEndpointY"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="$ethernetRect/@x"/>,<xsl:value-of select="$ethernetEndpointY"/>
             </xsl:attribute>
             <xsl:attribute name="style">fill:none;stroke:white;stroke-width:3;marker-end: url(#end-marker)
             </xsl:attribute>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template match="//to" name="beanTemplate">
+        <xsl:param name="relativeX"/>
+        <xsl:variable name="relativePositionX"
+                      select="(($relativeX - 1) * $innerBeanWidth) + (($relativeX - 1) * $innerSpace)"/>
+        <xsl:element name="rect">
+            <xsl:attribute name="x">
+                <xsl:value-of select="$beanStartX + $relativePositionX"/>
+            </xsl:attribute>
+            <xsl:attribute name="y">
+                <xsl:value-of select="$beanTop"/>
+            </xsl:attribute>
+            <xsl:attribute name="width">
+                <xsl:value-of select="$innerBeanWidth"/>
+            </xsl:attribute>
+            <xsl:attribute name="height">
+                <xsl:value-of select="$beanHeight"/>
+            </xsl:attribute>
+            <xsl:attribute name="fill">darkgrey</xsl:attribute>
+            <xsl:attribute name="stroke">white</xsl:attribute>
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
