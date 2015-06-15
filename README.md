@@ -3,7 +3,8 @@
 Current Status
 [![Build Status](https://travis-ci.org/maroselo/visualizator.svg?branch=master)](https://travis-ci.org/maroselo/visualizator)
 
-current status: [13-06-2015] fixing minor bugs in transformations (backend + documentation done)
+[13-06-2015] Fixed minor bugs in transformations (backend + documentation done).
+[15-06-2015] Added reports and presentation. FINAL VERSION
 
 School project for seminar **#PB138(Modern markup languages)** at Masaryk University, Brno, Czech Republic
 
