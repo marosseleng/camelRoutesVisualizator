@@ -24,7 +24,7 @@
     <xsl:variable name="pinNumberFinal" select="translate($pinNumber,'?','')"/>
     <xsl:variable name="outPin" select="$piSVG//*[@id=$pinNumberFinal]"/>
     <xsl:variable name="beanTop" select="((round($beansHeight div 2)) + $beansY - (round($beanHeight div 2)))"/>
-    <xsl:variable name="mqqtBeanX" select="$beansX + $beansWidth - 5 - $beanWidth"/>
+    <xsl:variable name="mqttBeanX" select="$beansX + $beansWidth - 5 - $beanWidth"/>
     <xsl:variable name="ethernetEndpointY" select="$ethernetRect/@y + round($ethernetRect/@height div 2)"/>
 
     <xsl:template match="/">
@@ -257,7 +257,7 @@
             </text>
 
             <xsl:call-template name="fromTemplate"/>
-            <xsl:call-template name="mqqtTemplate"/>
+            <xsl:call-template name="mqttTemplate"/>
             <xsl:for-each select="//to[not(contains(@uri,'//'))]">
                 <xsl:call-template name="beanTemplate">
                     <xsl:with-param name="relativeX" select="position()"/>
@@ -310,10 +310,10 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="//to[starts-with(@uri,'mqqt')]" name="mqqtTemplate">
+    <xsl:template match="//to[starts-with(@uri,'mqtt')]" name="mqttTemplate">
         <xsl:element name="rect">
             <xsl:attribute name="x">
-                <xsl:value-of select="$mqqtBeanX"/>
+                <xsl:value-of select="$mqttBeanX"/>
             </xsl:attribute>
             <xsl:attribute name="y">
                 <xsl:value-of select="$beanTop"/>
@@ -326,30 +326,30 @@
             </xsl:attribute>
             <xsl:attribute name="stroke">white</xsl:attribute>
             <xsl:attribute name="fill">white</xsl:attribute>
-            <xsl:attribute name="id">mqqtRect</xsl:attribute>
+            <xsl:attribute name="id">mqttRect</xsl:attribute>
         </xsl:element>
 
         <xsl:element name="text">
             <xsl:attribute name="fill">black</xsl:attribute>
             <xsl:attribute name="style">font-family: monospace; font-size: 20px;</xsl:attribute>
             <xsl:attribute name="x">
-                <xsl:value-of select="$mqqtBeanX + round($beanWidth div 4)"/>
+                <xsl:value-of select="$mqttBeanX + round($beanWidth div 4)"/>
             </xsl:attribute>
             <xsl:attribute name="y">
                 <xsl:value-of select="$beanTop + (($beanHeight * 2) div 3)"/>
             </xsl:attribute>
-            mqqt
+            mqtt
         </xsl:element>
 
         <xsl:element name="polyline">
             <xsl:attribute name="points">
-                <xsl:value-of select="$mqqtBeanX + $beanWidth"/>,<xsl:value-of
+                <xsl:value-of select="$mqttBeanX + $beanWidth"/>,<xsl:value-of
                     select="$beanTop + round($beanHeight div 2)"/>
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="$mqqtBeanX + $beanWidth + (($ethernetRect/@x - $mqqtBeanX - $beanWidth) div 2)"/>,<xsl:value-of
+                <xsl:value-of select="$mqttBeanX + $beanWidth + (($ethernetRect/@x - $mqttBeanX - $beanWidth) div 2)"/>,<xsl:value-of
                     select="$beanTop + round($beanHeight div 2)"/>
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="$mqqtBeanX + $beanWidth + (($ethernetRect/@x - $mqqtBeanX - $beanWidth) div 2)"/>,<xsl:value-of
+                <xsl:value-of select="$mqttBeanX + $beanWidth + (($ethernetRect/@x - $mqttBeanX - $beanWidth) div 2)"/>,<xsl:value-of
                     select="$ethernetEndpointY"/>
                 <xsl:text> </xsl:text>
                 <xsl:value-of select="$ethernetRect/@x"/>,<xsl:value-of select="$ethernetEndpointY"/>
@@ -422,7 +422,7 @@
                             select="$beanTop + round($beanHeight div 2)"/>
                 </xsl:attribute>
                 <xsl:attribute name="x2">
-                    <xsl:value-of select="$mqqtBeanX"/>
+                    <xsl:value-of select="$mqttBeanX"/>
                 </xsl:attribute>
                 <xsl:attribute name="y2">
                     <xsl:value-of

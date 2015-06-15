@@ -213,7 +213,7 @@
             <xsl:attribute name="y">
                 <xsl:value-of select="$beanTop + (($beanHeight * 2) div 3)"/>
             </xsl:attribute>
-            mqqt
+            mqtt
         </xsl:element>
 
         <xsl:element name="polyline">
