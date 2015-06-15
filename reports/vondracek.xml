@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+
+<article lang="en">
+    <articleinfo>
+        <title>Work report</title>
+        <author>
+            <firstname>Adam</firstname>
+            <surname>Vondráček</surname>
+        </author>
+        <authorinitials>AV</authorinitials>
+    </articleinfo>
+    <section id="report">
+        <title>Work Report</title>
+        <simpara>
+            For this project I did image representation of BeagleBoneBlack hardware. For this I have used svg technology. 
+            Next part of my work was creating a component witch is able to read configuration xml file and visualize 
+            BeagleBone board with respect to given configuration. To solve this problem i have used xslt technology as 
+            other members of the team. 
+        </simpara>
+        <simpara>
+           Most beneficial thing on this project was that I have learned little bit about github and possibilities that
+           markup languages offer.
+        </simpara>
+    </section>
+</article>

@@ -146,20 +146,19 @@
  <!-- /Board  -->
  <!-- xslt -->
             <xsl:variable name="pinNumber" select="substring-after(substring-before(string(beans/camelContext/route/from/@uri),'?'),'_')"/>
-            <xsl:text><xsl:value-of select="$pinNumber"/></xsl:text>
-            <!--Lines-->
+            <!--Start line-->
             <xsl:choose>               
-                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'P8')"><!-- gpio --> 
+                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'P8')"><!-- up pins --> 
                         <xsl:choose>
                             <xsl:when test="($pinNumber mod 2) = 0">
-                                <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                                <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                                     <xsl:attribute name="points">
                                         <xsl:value-of select="concat($pinNumber*10+195-10,',25',' ',$pinNumber*10+195-10,',100',' ','160,100',' ','160,200',' ','200,200')" />
                                     </xsl:attribute> 
                                 </polyline>        
                             </xsl:when>
                             <xsl:when test="($pinNumber mod 2) = 1">  
-                                <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                                <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                                     <xsl:attribute name="points">
                                         <xsl:value-of select="concat($pinNumber*10+195,',45',' ',$pinNumber*10+195,',100',' ','160,100',' ','160,200',' ','200,200')" />
                                     </xsl:attribute> 
@@ -168,17 +167,17 @@
                             <xsl:otherwise>Error 0</xsl:otherwise>
                         </xsl:choose>  
                     </xsl:when>
-                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'P9')"><!-- bean -->
+                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'P9')"><!-- down pins -->
                         <xsl:choose>
                             <xsl:when test="($pinNumber mod 2) = 0">
-                                <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                                <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                                     <xsl:attribute name="points">
                                         <xsl:value-of select="concat($pinNumber*10+195-10,',365',' ',$pinNumber*10+195-10,',280',' ','160,280',' ','160,200',' ','200,200')" />
                                     </xsl:attribute> 
                                 </polyline>         
                             </xsl:when>
                             <xsl:when test="($pinNumber mod 2) = 1">
-                                <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                                <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                                     <xsl:attribute name="points">
                                         <xsl:value-of select="concat($pinNumber*10+195,',385',' ',$pinNumber*10+195,',280',' ','160,280',' ','160,200',' ','200,200')" />
                                     </xsl:attribute> 
@@ -189,10 +188,10 @@
                     </xsl:when>                
                     <xsl:otherwise>Error 2</xsl:otherwise>
             </xsl:choose>
-            <!--output line-->
+            <!--End line-->
             <xsl:choose>
                 <xsl:when test="contains(beans/camelContext/route/to[last()]/@uri, 'localhost')">
-                    <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                    <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                         <xsl:attribute name="points">
                             <xsl:value-of select="concat('200,200',' ','600,200',' ','600,250',' ','50,250',' ','50,220')" />
                         </xsl:attribute> 
@@ -204,7 +203,7 @@
                     </polyline>  
                 </xsl:when>
                 <xsl:when test="contains(beans/camelContext/route/to[last()]/@uri, 'USB')">
-                    <polyline points="" style="fill:none;stroke:white;stroke-width:3">
+                    <polyline points="" style="fill:none;stroke:white;stroke-width:3" stroke-dasharray="10,5">
                         <xsl:attribute name="points">
                             <xsl:value-of select="concat('200,200',' ','600,200',' ','600,280',' ','630,280')" />
                         </xsl:attribute> 
@@ -216,7 +215,93 @@
                     </polyline>  
                 </xsl:when>
                 <xsl:otherwise>Error</xsl:otherwise>
-            </xsl:choose> 
+            </xsl:choose>
+             
+            <!--First component from element from -->
+            <xsl:choose>
+                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'gpio')"><!-- gpio -->
+                        <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
+                            style="fill:white;stroke:gray;stroke-width:5;" >
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                        </rect>
+                        <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
+                            <xsl:attribute name="x1">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                            <xsl:attribute name="x2">
+                                <xsl:value-of select="140+20" />
+                            </xsl:attribute>
+                        </line>  
+                        <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="concat(140+60,',200',' ',140+40,',210',' ',140+40,',190',' ',140+60,',200')" />
+                            </xsl:attribute> 
+                        </polyline>   
+                        <text x="0" y="200" fill="black">
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+90" />
+                            </xsl:attribute>
+                            gpio
+                        </text>
+                    </xsl:when>
+                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'bean')"><!-- bean -->
+                        <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
+                            style="fill:white;stroke:gray;stroke-width:5;" >
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                        </rect>
+                        <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
+                            <xsl:attribute name="x1">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                            <xsl:attribute name="x2">
+                                <xsl:value-of select="140+20" />
+                            </xsl:attribute>
+                        </line>   
+                        <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="concat(140+60,',200',' ',140+40,',210',' ',140+40,',190',' ',140+60,',200')" />
+                            </xsl:attribute> 
+                        </polyline> 
+                        <text x="0" y="200" fill="black">
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+90" />
+                            </xsl:attribute>
+                            bean
+                        </text>
+                    </xsl:when>
+                    <xsl:when test="contains(beans/camelContext/route/from/@uri, 'mqtt')"><!-- mqtt -->
+                        <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
+                            style="fill:white;stroke:gray;stroke-width:5;" >
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                        </rect>
+                        <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
+                            <xsl:attribute name="x1">
+                                <xsl:value-of select="140+60" />
+                            </xsl:attribute>
+                            <xsl:attribute name="x2">
+                                <xsl:value-of select="140+20" />
+                            </xsl:attribute>
+                        </line>  
+                        <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
+                            <xsl:attribute name="points">
+                                <xsl:value-of select="concat(140+60,',200',' ',140+40,',210',' ',140+40,',190',' ',140+60,',200')" />
+                            </xsl:attribute> 
+                        </polyline>  
+                        <text x="0" y="200" fill="black">
+                            <xsl:attribute name="x">
+                                <xsl:value-of select="140+90" />
+                            </xsl:attribute>
+                            mqtt
+                        </text>
+                    </xsl:when>
+                    <xsl:otherwise>Error</xsl:otherwise>
+                </xsl:choose>
             <!--Components-->
             <xsl:for-each select="beans/camelContext/route/to">
                 <xsl:choose>
@@ -224,25 +309,25 @@
                         <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
                             style="fill:white;stroke:gray;stroke-width:5;" >
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                         </rect>
                         <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
                             <xsl:attribute name="x1">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                             <xsl:attribute name="x2">
-                                <xsl:value-of select="position()*140+20" />
+                                <xsl:value-of select="140+position()*140+20" />
                             </xsl:attribute>
                         </line>  
                         <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
                             <xsl:attribute name="points">
-                                <xsl:value-of select="concat(position()*140+60,',200',' ',position()*140+40,',210',' ',position()*140+40,',190',' ',position()*140+60,',200')" />
+                                <xsl:value-of select="concat(140+position()*140+60,',200',' ',140+position()*140+40,',210',' ',140+position()*140+40,',190',' ',140+position()*140+60,',200')" />
                             </xsl:attribute> 
                         </polyline>   
                         <text x="0" y="200" fill="black">
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+90" />
+                                <xsl:value-of select="140+position()*140+90" />
                             </xsl:attribute>
                             gpio
                         </text>
@@ -251,25 +336,25 @@
                         <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
                             style="fill:white;stroke:gray;stroke-width:5;" >
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                         </rect>
                         <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
                             <xsl:attribute name="x1">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                             <xsl:attribute name="x2">
-                                <xsl:value-of select="position()*140+20" />
+                                <xsl:value-of select="140+position()*140+20" />
                             </xsl:attribute>
                         </line>   
                         <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
                             <xsl:attribute name="points">
-                                <xsl:value-of select="concat(position()*140+60,',200',' ',position()*140+40,',210',' ',position()*140+40,',190',' ',position()*140+60,',200')" />
+                                <xsl:value-of select="concat(140+position()*140+60,',200',' ',140+position()*140+40,',210',' ',140+position()*140+40,',190',' ',140+position()*140+60,',200')" />
                             </xsl:attribute> 
                         </polyline> 
                         <text x="0" y="200" fill="black">
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+90" />
+                                <xsl:value-of select="140+position()*140+90" />
                             </xsl:attribute>
                             bean
                         </text>
@@ -278,25 +363,25 @@
                         <rect x="0" y="160" rx="5" ry="5" width="100" height="75"
                             style="fill:white;stroke:gray;stroke-width:5;" >
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                         </rect>
                         <line x1="0" y1="200" x2="200" y2="200" style="stroke:white;stroke-width:2">
                             <xsl:attribute name="x1">
-                                <xsl:value-of select="position()*140+60" />
+                                <xsl:value-of select="140+position()*140+60" />
                             </xsl:attribute>
                             <xsl:attribute name="x2">
-                                <xsl:value-of select="position()*140+20" />
+                                <xsl:value-of select="140+position()*140+20" />
                             </xsl:attribute>
                         </line>  
                         <polyline points="" style="fill:white;stroke:grey;stroke-width:2">
                             <xsl:attribute name="points">
-                                <xsl:value-of select="concat(position()*140+60,',200',' ',position()*140+40,',210',' ',position()*140+40,',190',' ',position()*140+60,',200')" />
+                                <xsl:value-of select="concat(140+position()*140+60,',200',' ',140+position()*140+40,',210',' ',140+position()*140+40,',190',' ',140+position()*140+60,',200')" />
                             </xsl:attribute> 
                         </polyline>  
                         <text x="0" y="200" fill="black">
                             <xsl:attribute name="x">
-                                <xsl:value-of select="position()*140+90" />
+                                <xsl:value-of select="140+position()*140+90" />
                             </xsl:attribute>
                             mqtt
                         </text>
