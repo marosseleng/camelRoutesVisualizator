@@ -378,7 +378,7 @@
                 <xsl:value-of select="$beanHeight"/>
             </xsl:attribute>
             <xsl:attribute name="fill">darkgrey</xsl:attribute>
-            <xsl:attribute name="stroke">white</xsl:attribute>
+            <xsl:attribute name="stroke">darkgrey</xsl:attribute>
         </xsl:element>
 
         <xsl:element name="text">

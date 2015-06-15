@@ -4,7 +4,7 @@ import javax.xml.transform.TransformerException;
 
 /**
  * Demo class
- * Transforms file test01.xml into a file output.svg
+ * Transforms file test_beaglebone.xml into a file output.svg
  *
  * @author <a href="mailto:xseleng@fi.muni.cz">Maros Seleng</a>
  */
