@@ -9,10 +9,6 @@
         <route customId="true" id="iot-door-bell-route">
             <from uri="gpio://P2_02?value=HIGH"/>
             <to uri="bean:webCamBean?method=getPicture"/>
-            <to uri="bean:webCamBean?method=getPicture"/>
-            <to uri="bean:webCamBean?method=getPicture"/>
-            <to uri="bean:webCamBean?method=getPicture"/>
-            <to uri="bean:webCamBean?method=getPicture"/>
             <to uri="mqtt://iot-demo?host=tcp://localhost:1883&amp;publishTopicName=IotDemo"/>
         </route>
     </camelContext>
