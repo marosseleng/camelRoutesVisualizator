@@ -225,7 +225,7 @@
         <xsl:element name="text" namespace="http://www.w3.org/2000/svg">             
             <xsl:attribute name="x">155</xsl:attribute>
             <xsl:attribute name="y">165</xsl:attribute>  
-            <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+            <xsl:attribute name="style">font-family: serif; font-size: 20px;</xsl:attribute>            
             <xsl:attribute name="fill">black</xsl:attribute>
             <xsl:value-of select="substring-before($from_uri,':')"/>             
         </xsl:element>
@@ -334,7 +334,7 @@
                         <xsl:value-of select="$iters*80+155"/>
                     </xsl:attribute>
                     <xsl:attribute name="y">165</xsl:attribute>  
-                    <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+                    <xsl:attribute name="style">font-family: serif; font-size: 20px;</xsl:attribute>            
                     <xsl:attribute name="fill">black</xsl:attribute>
                     <xsl:value-of select="substring-before($to_uri,':')"/>             
                 </xsl:element> 
@@ -452,7 +452,7 @@
                         <xsl:value-of select="$iter*80+155"/>
                     </xsl:attribute>
                     <xsl:attribute name="y">225</xsl:attribute>  
-                    <xsl:attribute name="style">font-family: serif; font-size: 25px;</xsl:attribute>            
+                    <xsl:attribute name="style">font-family: serif; font-size: 20px;</xsl:attribute>            
                     <xsl:attribute name="fill">black</xsl:attribute>
                     <xsl:value-of select="substring-before($to_uri,':')"/>             
                 </xsl:element>
