@@ -47,7 +47,7 @@ The detailed documentation, with the description of every single thing in applic
 - [Adam Vondráček] (https://github.com/Adam144) *developer*
 
 ##Lecturers
-- [Filip Nguyen] (https://github.com/nguyenfilip) *developer*
-- [Tomáš Pitner] (https://github.com/tpitner) *developer*
-- [Luděk Bártek] (https://github.com/ludekbartek) *developer*
-- [Adam Rambousek] (https://github.com/rambousek) *developer*
+- [Filip Nguyen] (https://github.com/nguyenfilip)
+- [Tomáš Pitner] (https://github.com/tpitner)
+- [Luděk Bártek] (https://github.com/ludekbartek)
+- [Adam Rambousek] (https://github.com/rambousek)
