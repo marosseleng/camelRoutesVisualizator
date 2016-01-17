@@ -1,6 +1,6 @@
 #Silverspoon Camel Routes Visualizator
 
-[![Build Status](https://travis-ci.org/maroselo/visualizator.svg?branch=master)](https://travis-ci.org/maroselo/visualizator)
+[![Build Status](https://travis-ci.org/maroselo/camelRoutesVisualizator.svg?branch=master)](https://travis-ci.org/maroselo/camelRoutesVisualizator)
 
 Originally a school project for **#PB138(Modern markup languages) seminar** at Faculty of Informatics at Masaryk University, Brno, Czech Republic
 
